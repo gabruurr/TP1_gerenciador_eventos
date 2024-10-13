@@ -1,9 +1,9 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Organizador {
@@ -13,6 +13,9 @@ public class Organizador {
     private String nome;
     private String email;
     private String telefone;
+
+    @ManyToMany(mappedBy = "organizadores")
+    private List<Evento> eventos = new ArrayList<>();
 
     public Organizador() {
     }
