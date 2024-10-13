@@ -72,4 +72,8 @@ public class Evento {
         this.id = id;
     }
 
+    public List<Servico> getServicos() {
+        return servicos;
+    }
+
 }
