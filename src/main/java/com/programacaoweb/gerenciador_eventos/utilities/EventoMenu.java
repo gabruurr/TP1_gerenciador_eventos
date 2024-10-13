@@ -62,7 +62,7 @@ public class EventoMenu {
     public void pesquisarEventoMenu() {
         System.out.println("Digite o nome do evento: ");
         String nomeBuscado = sc.nextLine();
-        System.out.println(eventoRepository.findByNome(nomeBuscado));
+        System.out.println(eventoRepository.findByNomeContainingIgnoreCase(nomeBuscado));
     }
 
     public void deletarEventoMenu() {

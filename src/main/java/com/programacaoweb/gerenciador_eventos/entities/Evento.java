@@ -99,6 +99,6 @@ public class Evento {
         return "\nNome do evento: " + nome +
                 "\nData e hora: " + data.format(fmtData) +
                 "\nLocal: " + local +
-                "\nCapacidade de participantes: " + capacidade;
+                "\nCapacidade de participantes: " + capacidade + "\n";
     }
 }

@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Integer> {
-    List<Evento> findByNome(String nome);
+    List<Evento> findByNomeContainingIgnoreCase(String nome);
 }
+
