@@ -26,6 +26,11 @@ public class Evento {
             inverseJoinColumns = @JoinColumn(name = "participante_id"))
     private List<Participante> participantes = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "evento_organizador", joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "organizador_id"))
+    private List<Organizador> organizadores = new ArrayList<>();
+
 
     public Evento() {
     }
@@ -81,7 +86,11 @@ public class Evento {
         return servicos;
     }
 
-    public Evento(List<Participante> participantes) {
-        this.participantes = participantes;
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    public List<Organizador> getOrganizadores() {
+        return organizadores;
     }
 }
