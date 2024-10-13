@@ -31,4 +31,9 @@ public class EventoController {
         return eventoRepository.findByNomeContainingIgnoreCase(nome);
     }
 
+    @PostMapping
+    public Evento createEvento(@RequestBody Evento evento) {
+        return eventoRepository.save(evento);
+    }
+
 }

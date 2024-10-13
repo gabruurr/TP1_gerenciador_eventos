@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -57,12 +58,18 @@ public class EventoMenu {
         sc.nextLine();
         Evento evento = new Evento(nomeEvento, data, local, cap);
         eventoRepository.save(evento);
+        System.out.println("\nEvento cadastrado com sucesso!");
     }
 
     public void pesquisarEventoMenu() {
-        System.out.println("Digite o nome do evento: ");
-        String nomeBuscado = sc.nextLine();
-        System.out.println(eventoRepository.findByNomeContainingIgnoreCase(nomeBuscado));
+        System.out.print("Digite do nome do evento a ser buscado: ");
+        String nome = sc.nextLine();
+        List<Evento> eventos = eventoRepository.findByNomeContainingIgnoreCase(nome);
+        if (!eventos.isEmpty()) {
+            eventos.forEach(System.out::println);
+        } else {
+            System.out.println("Desculpe, não encontramos esse evento :(");
+        }
     }
 
     public void deletarEventoMenu() {
