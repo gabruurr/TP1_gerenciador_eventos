@@ -11,13 +11,18 @@ public class Servico {
     private String descricao;
     private Double preco;
 
+    @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private Evento evento;
+
     public Servico() {
     }
 
-    public Servico(String nome, String descricao, Double preco) {
+    public Servico(String nome, String descricao, Double preco, Evento evento) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.evento = evento;
     }
 
     public Integer getId() {
@@ -52,4 +57,11 @@ public class Servico {
         this.preco = preco;
     }
 
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 }
