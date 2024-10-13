@@ -1,6 +1,7 @@
 package com.programacaoweb.gerenciador_eventos;
 
 import com.programacaoweb.gerenciador_eventos.utilities.EventoMenu;
+import com.programacaoweb.gerenciador_eventos.utilities.ParticipanteMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,8 @@ import java.util.Scanner;
 public class GerenciadorEventosApplication implements CommandLineRunner {
     @Autowired
     EventoMenu eventoMenu;
+    @Autowired
+    private ParticipanteMenu participanteMenu;
 
     public static void main(String[] args) {
         SpringApplication.run(GerenciadorEventosApplication.class, args);
@@ -40,7 +43,7 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
                     eventoMenu.gerenciarEventos();
                     break;
                 case 2:
-                    System.out.println("em dev2");
+                    participanteMenu.gerenciarParticipantes();
                     break;
                 case 3:
                     System.out.println("em dev3");
