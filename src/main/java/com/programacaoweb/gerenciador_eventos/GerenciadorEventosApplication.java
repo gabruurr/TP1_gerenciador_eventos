@@ -49,14 +49,16 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
                     System.out.println("em dev4");
                     break;
                 case 5:
-                    continuar = false;
                     System.out.println("Fechando o programa...");
+                    continuar = false;
                     break;
                 default:
                     System.out.println("Entrada inválida!");
 
             }
         }
+        sc.close();
+        System.exit(0);
     }
 }
 
