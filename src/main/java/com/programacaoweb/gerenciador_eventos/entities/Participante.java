@@ -14,6 +14,9 @@ public class Participante {
     private String email;
     private String telefone;
 
+    @ManyToMany(mappedBy = "participantes")
+    List<Evento> eventos = new ArrayList<>();
+
     public Participante() {
     }
 
@@ -53,5 +56,9 @@ public class Participante {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
     }
 }
