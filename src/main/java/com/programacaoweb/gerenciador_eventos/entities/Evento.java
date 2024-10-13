@@ -21,6 +21,11 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL,orphanRemoval = true)
     List<Servico> servicos = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "evento_participante", joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "participante_id"))
+    private List<Participante> participantes = new ArrayList<>();
+
 
     public Evento() {
     }
@@ -76,4 +81,7 @@ public class Evento {
         return servicos;
     }
 
+    public Evento(List<Participante> participantes) {
+        this.participantes = participantes;
+    }
 }
