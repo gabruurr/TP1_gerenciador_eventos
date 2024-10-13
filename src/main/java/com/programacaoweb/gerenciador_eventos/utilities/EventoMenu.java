@@ -60,9 +60,9 @@ public class EventoMenu {
     }
 
     public void pesquisarEventoMenu() {
-        System.out.println("Digite o id do evento: ");
-        int id = sc.nextInt();
-        System.out.println(eventoRepository.findById(id).get());;
+        System.out.println("Digite o nome do evento: ");
+        String nomeBuscado = sc.nextLine();
+        System.out.println(eventoRepository.findByNome(nomeBuscado));
     }
 
     public void deletarEventoMenu() {
