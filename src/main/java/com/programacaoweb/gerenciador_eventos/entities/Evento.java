@@ -93,4 +93,12 @@ public class Evento {
     public List<Organizador> getOrganizadores() {
         return organizadores;
     }
+
+    @Override
+    public String toString() {
+        return "\nNome do evento: " + nome +
+                "\nData e hora: " + data.format(fmtData) +
+                "\nLocal: " + local +
+                "\nCapacidade de participantes: " + capacidade;
+    }
 }

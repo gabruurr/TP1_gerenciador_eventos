@@ -62,13 +62,14 @@ public class EventoMenu {
     public void pesquisarEventoMenu() {
         System.out.println("Digite o id do evento: ");
         int id = sc.nextInt();
-        eventoRepository.findById(id);
+        System.out.println(eventoRepository.findById(id).get());;
     }
 
     public void deletarEventoMenu() {
         System.out.println("Digite o ID do evento a ser deletado:");
         int id = sc.nextInt();
         eventoRepository.deleteById(id);
+        System.out.println("Evento deletado com sucesso!");
     }
 
     public void atualizarEventoMenu() {

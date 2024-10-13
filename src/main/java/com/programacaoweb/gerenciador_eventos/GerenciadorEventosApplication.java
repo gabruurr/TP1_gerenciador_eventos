@@ -24,7 +24,7 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
         boolean continuar = true;
 
         while (continuar) {
-            System.out.println("PÁGINA INICIAL");
+            System.out.println("\nPÁGINA INICIAL");
             System.out.println("1 - Eventos");
             System.out.println("2 - Participantes");
             System.out.println("3 - Organizadores");
