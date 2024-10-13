@@ -19,7 +19,7 @@ public class Evento {
     private Integer capacidade;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL,orphanRemoval = true)
-    List<Servico> servicos = new ArrayList<>();
+    private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "evento_participante", joinColumns = @JoinColumn(name = "evento_id"),

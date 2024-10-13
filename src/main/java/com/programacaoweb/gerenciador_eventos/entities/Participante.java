@@ -15,7 +15,7 @@ public class Participante {
     private String telefone;
 
     @ManyToMany(mappedBy = "participantes")
-    List<Evento> eventos = new ArrayList<>();
+    private List<Evento> eventos = new ArrayList<>();
 
     public Participante() {
     }
