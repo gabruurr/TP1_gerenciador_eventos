@@ -116,8 +116,6 @@ public class EventoMenu {
         }
         eventoRepository.save(eventoEncontrado);
         System.out.println("Evento atualizado com sucesso!");
-
     }
-
 
 }
