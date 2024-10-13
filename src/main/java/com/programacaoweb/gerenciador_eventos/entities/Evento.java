@@ -1,12 +1,11 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Evento {
@@ -18,6 +17,9 @@ public class Evento {
     private LocalDateTime data;
     private String local;
     private Integer capacidade;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL,orphanRemoval = true)
+    List<Servico> servicos = new ArrayList<>();
 
 
     public Evento() {
