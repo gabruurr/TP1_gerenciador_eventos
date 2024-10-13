@@ -18,7 +18,7 @@ public class Evento {
     private String local;
     private Integer capacidade;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany
@@ -97,6 +97,7 @@ public class Evento {
     @Override
     public String toString() {
         return "\nNome do evento: " + nome +
+                "\nID: " + id +
                 "\nData e hora: " + data.format(fmtData) +
                 "\nLocal: " + local +
                 "\nCapacidade de participantes: " + capacidade + "\n";
