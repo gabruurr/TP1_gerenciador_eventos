@@ -43,6 +43,9 @@ public class ServicoMenu {
             case 4:
                 deletarServico();
                 break;
+            case 5:
+                atualizarServico();
+                break;
             case 6:
                 return;
             default:
@@ -124,7 +127,7 @@ public class ServicoMenu {
         System.out.println("1 - Nome");
         System.out.println("2 - Descrição");
         System.out.println("3 - Valor (somente se o serviço não estiver contratado)");
-        System.out.println("4 - Cancelar contrato");
+        System.out.println("4 - Retornar à Página Inicial");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -134,12 +137,14 @@ public class ServicoMenu {
                 String novoNome = sc.nextLine();
                 servicoTmp.setNome(novoNome);
                 servicoRepository.save(servicoTmp);
+                System.out.println("Nome alterado!");
                 break;
             case 2:
                 System.out.println("Digite a nova descrição do serviço: ");
                 String novaDesc = sc.nextLine();
                 servicoTmp.setNome(novaDesc);
                 servicoRepository.save(servicoTmp);
+                System.out.println("Descrição alterada!");
                 break;
             case 3:
                 System.out.println("Digite o novo valor do serviço");
@@ -151,8 +156,13 @@ public class ServicoMenu {
                     return;
                 }
                 servicoTmp.setPreco(novoValor);
+                System.out.println("Preço alterado!");
                 servicoRepository.save(servicoTmp);
                 break;
+            case 4:
+                return;
+            default:
+                System.out.println("Entrada inválida!");
         }
     }
 }

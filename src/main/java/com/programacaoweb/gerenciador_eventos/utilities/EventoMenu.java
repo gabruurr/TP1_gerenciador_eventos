@@ -100,6 +100,7 @@ public class EventoMenu {
         System.out.println("2 - Data");
         System.out.println("3 - Local");
         System.out.println("4 - Capacidade");
+        System.out.println("5 - Retornar à Página Inicial");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -131,6 +132,9 @@ public class EventoMenu {
                 sc.nextLine();
                 eventoEncontrado.setCapacidade(novaCapacidade);
                 break;
+
+            case 5:
+                return;
 
             default:
                 System.out.println("Escolha inválida!");

@@ -135,6 +135,7 @@ public class ParticipanteMenu {
         System.out.println("2 - E-mail");
         System.out.println("3 - Telefone");
         System.out.println("4 - Eventos inscritos");
+        System.out.println("5 - Retornar à Página Inicial");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -160,6 +161,9 @@ public class ParticipanteMenu {
             case 4:
                 removerInscricaoEvento(participanteEncontrado);
                 break;
+
+            case 5:
+                return;
 
             default:
                 System.out.println("Escolha inválida!");
