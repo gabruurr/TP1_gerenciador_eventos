@@ -26,7 +26,7 @@ public class Evento {
             inverseJoinColumns = @JoinColumn(name = "participante_id"))
     private List<Participante> participantes = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "evento_organizador", joinColumns = @JoinColumn(name = "evento_id"),
             inverseJoinColumns = @JoinColumn(name = "organizador_id"))
     private List<Organizador> organizadores = new ArrayList<>();

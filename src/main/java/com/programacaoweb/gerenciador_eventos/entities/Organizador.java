@@ -14,7 +14,7 @@ public class Organizador {
     private String email;
     private String telefone;
 
-    @ManyToMany(mappedBy = "organizadores")
+    @ManyToMany(mappedBy = "organizadores", fetch = FetchType.EAGER)
     private List<Evento> eventos = new ArrayList<>();
 
     public Organizador() {
@@ -58,4 +58,7 @@ public class Organizador {
         this.telefone = telefone;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
 }
