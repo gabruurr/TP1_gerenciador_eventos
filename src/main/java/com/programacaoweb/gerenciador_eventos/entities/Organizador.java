@@ -61,4 +61,25 @@ public class Organizador {
     public List<Evento> getEventos() {
         return eventos;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder eventosCadastrados = new StringBuilder();
+
+        if (eventos.isEmpty()) {
+            eventosCadastrados.append("Nenhum evento sob responsabilidade!\n");
+        }
+        else {
+            for (Evento evento : eventos) {
+                eventosCadastrados.append("\n- ").append(evento.getNome());
+            }
+        }
+        return "\nNome: " + nome +
+                "\nID: " + id +
+                "\nE-mail: " + email +
+                "\nNúmero de telefone: " + telefone +
+                "\nEventos: " + eventosCadastrados;
+
+    }
+    }
 }
