@@ -63,4 +63,20 @@ public class Servico {
     public void setEvento(Evento evento) {
         this.evento = evento;
     }
+
+    @Override
+    public String toString() {
+        String eventoContrato;
+        if (evento == null) {
+            eventoContrato = "Nenhum evento sob contrato\n";
+        } else {
+            eventoContrato = evento.getNome() + ", " + evento.getLocal();
+        }
+        return "\nID: " + id +
+                "\nNome: " + nome +
+                "\nDescrição: " + descricao +
+                "\nValor do contrato: R$" + String.format("%.2f", preco) +
+                "\nEventos: " + eventoContrato;
+
+    }
 }
