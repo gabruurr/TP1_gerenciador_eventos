@@ -7,6 +7,7 @@ import com.programacaoweb.gerenciador_eventos.repositories.ParticipanteRepositor
 import com.programacaoweb.gerenciador_eventos.utilities.EventoMenu;
 import com.programacaoweb.gerenciador_eventos.utilities.OrganizadorMenu;
 import com.programacaoweb.gerenciador_eventos.utilities.ParticipanteMenu;
+import com.programacaoweb.gerenciador_eventos.utilities.ServicoMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +24,8 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
     private ParticipanteMenu participanteMenu;
     @Autowired
     private OrganizadorMenu organizadorMenu;
+    @Autowired
+    private ServicoMenu servicoMenu;
     @Autowired
     private ParticipanteRepository participanteRepository;
     @Autowired
@@ -72,7 +75,7 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
                     organizadorMenu.gerenciarOrganizadores();
                     break;
                 case 4:
-                    System.out.println("em dev4");
+                    servicoMenu.gerenciarServicos();
                     break;
                 case 5:
                     System.out.println("Fechando o programa...");

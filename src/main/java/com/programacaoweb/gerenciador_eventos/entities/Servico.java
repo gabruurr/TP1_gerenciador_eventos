@@ -18,11 +18,10 @@ public class Servico {
     public Servico() {
     }
 
-    public Servico(String nome, String descricao, Double preco, Evento evento) {
+    public Servico(String nome, String descricao, Double preco) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
-        this.evento = evento;
     }
 
     public Integer getId() {
