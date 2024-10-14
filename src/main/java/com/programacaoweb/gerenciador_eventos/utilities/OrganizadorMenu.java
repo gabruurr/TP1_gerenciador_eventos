@@ -18,11 +18,11 @@ public class OrganizadorMenu {
     @Autowired
     EventoRepository eventoRepository;
 
-    public void gerenciarOrganizadors() {
+    public void gerenciarOrganizadores() {
         int escolha;
         System.out.println("\nQue operação deseja realizar? ");
         System.out.println("1 - Cadastrar organizador");
-        System.out.println("2 - Inscrever organizador em evento");
+        System.out.println("2 - Cadastrar um evento para o organizador");
         System.out.println("3 - Pesquisar organizador");
         System.out.println("4 - Deletar organizador");
         System.out.println("5 - Atualizar organizador");
@@ -35,7 +35,7 @@ public class OrganizadorMenu {
                 cadastrarOrganizadorMenu();
                 break;
             case 2:
-                inscreverOrganizadorEmEventoMenu();
+                cadastrarEventoOrganizadorMenu();
                 break;
             case 3:
                 pesquisarOrganizadorMenu();
@@ -65,44 +65,38 @@ public class OrganizadorMenu {
         System.out.println("\nOrganizador cadastrado com sucesso!");
     }
 
-    public void inscreverOrganizadorEmEventoMenu() {
-        System.out.print("Digite o ID do organizador a ser inscrito: ");
+    public void cadastrarEventoOrganizadorMenu() {
+        System.out.print("Digite o ID do organizador: ");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
 
         Organizador organizador = organizadorRepository.findById(idOrganizador).get();
 
-        System.out.print("Digite o ID do evento no qual deseja inscrever o organizador: ");
+        System.out.print("Digite o ID do evento: ");
         int idEvento = sc.nextInt();
         sc.nextLine();
 
         Evento evento = eventoRepository.findById(idEvento).get();
 
-        if (evento.getCapacidade() <= 0) {
-            System.out.println("Desculpe, o evento está cheio!");
-            return;
-        }
-
         evento.getOrganizadores().add(organizador);
         organizador.getEventos().add(evento);
-        evento.setCapacidade(evento.getCapacidade() - 1);
 
         organizadorRepository.save(organizador);
         eventoRepository.save(evento);
 
-        System.out.println("Organizador inscrito com sucesso!");
+        System.out.println("Agora esse organizador é responsável pelo evento \"" + evento.getNome() + "\"");
     }
 
     public void pesquisarOrganizadorMenu() {
         System.out.print("Digite do nome do organizador a ser buscado: ");
         String nome = sc.nextLine();
-        List<Organizador> organizadors = organizadorRepository.findByNomeContainingIgnoreCase(nome);
-        List<Organizador> todosOrganizadors = organizadorRepository.findAll();
+        List<Organizador> organizadores = organizadorRepository.findByNomeContainingIgnoreCase(nome);
+        List<Organizador> todosOrganizadores = organizadorRepository.findAll();
         if (nome == null) {
-            todosOrganizadors.forEach(System.out::println);
+            todosOrganizadores.forEach(System.out::println);
         }
-        if (!organizadors.isEmpty()) {
-            organizadors.forEach(System.out::println);
+        if (!organizadores.isEmpty()) {
+            organizadores.forEach(System.out::println);
         } else {
             System.out.println("Desculpe, não encontramos esse organizador :(");
         }
@@ -134,7 +128,7 @@ public class OrganizadorMenu {
         System.out.println("1 - Nome");
         System.out.println("2 - E-mail");
         System.out.println("3 - Telefone");
-        System.out.println("4 - Eventos inscritos");
+        System.out.println("4 - Eventos");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -158,7 +152,7 @@ public class OrganizadorMenu {
                 break;
 
             case 4:
-                removerInscricaoEvento(organizadorEncontrado);
+                removerGestaoEvento(organizadorEncontrado);
                 break;
 
             default:
@@ -168,18 +162,18 @@ public class OrganizadorMenu {
         System.out.println("Organizador atualizado com sucesso!");
     }
 
-    private void removerInscricaoEvento(Organizador organizador) {
+    private void removerGestaoEvento(Organizador organizador) {
         if (organizador.getEventos().isEmpty()) {
-            System.out.println("O organizador não está inscrito em nenhum evento.");
+            System.out.println("O organizador não é responsável por nenhum evento no momento!");
             return;
         }
 
-        System.out.println("Eventos aos quais o organizador está inscrito:");
+        System.out.println("Eventos aos quais o organizador é responsável:");
         for (int i = 0; i < organizador.getEventos().size(); i++) {
             System.out.println((i + 1) + " - " + organizador.getEventos().get(i).getNome());
         }
 
-        System.out.print("Digite o ID do evento do qual deseja remover a inscrição: ");
+        System.out.print("Digite o ID do evento do qual deseja remover a gestão: ");
         int idEvento = sc.nextInt() - 1;
         sc.nextLine();
 
@@ -192,7 +186,6 @@ public class OrganizadorMenu {
 
         eventoSelecionado.getOrganizadores().remove(organizador);
         organizador.getEventos().remove(eventoSelecionado);
-        eventoSelecionado.setCapacidade(eventoSelecionado.getCapacidade() + 1);
 
         eventoRepository.save(eventoSelecionado);
         organizadorRepository.save(organizador);
