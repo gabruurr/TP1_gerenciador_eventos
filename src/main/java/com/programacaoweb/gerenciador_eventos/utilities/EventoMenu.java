@@ -86,6 +86,10 @@ public class EventoMenu {
             System.out.println("Existem participantes inscritos nesse evento! Remova-os primeiro");
             return;
         }
+        if (!evento.getServicos().isEmpty()){
+            System.out.println("Existem serviços contratados para esse evento! Cancele-os primeiro");
+            return;
+        }
         eventoRepository.deleteById(id);
         System.out.println("Evento deletado com sucesso!");
     }

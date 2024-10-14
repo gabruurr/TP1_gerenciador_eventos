@@ -198,16 +198,18 @@ public class ServicoMenu {
             System.out.println("\n - " + servicoTmp.getNome() + ", R$" + servicoTmp.getPreco() + " ---- ID: " + servicoTmp.getId());
         }
         System.out.println("Digite o ID do serviço a ser cancelado:");
-        int idServico = sc.nextInt() - 1;
+        int idServico = sc.nextInt();
         sc.nextLine();
 
-        Servico servicoEscolhido = evento.getServicos().get(idServico);
+        Servico servicoSelecionado = servicoRepository.findById(idServico).get();
 
-        evento.getServicos().remove(idServico);
-        servicoEscolhido.setEvento(null);
-
+        evento.getServicos().remove(servicoSelecionado);
         eventoRepository.save(evento);
-        servicoRepository.save(servicoEscolhido);
+
+        servicoSelecionado.setEvento(null);
+        servicoRepository.save(servicoSelecionado);
+
+        System.out.println("Serviço cancelado com sucesso!");
     }
 }
 
