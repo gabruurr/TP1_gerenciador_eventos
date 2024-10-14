@@ -2,10 +2,8 @@ package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
 import com.programacaoweb.gerenciador_eventos.entities.Organizador;
-import com.programacaoweb.gerenciador_eventos.entities.Servico;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.OrganizadorRepository;
-import com.programacaoweb.gerenciador_eventos.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -17,6 +17,7 @@ public class Evento {
     private LocalDateTime data;
     private String local;
     private Integer capacidade;
+    private Double total_servicos;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
     private List<Servico> servicos = new ArrayList<>();
@@ -33,6 +34,7 @@ public class Evento {
 
 
     public Evento() {
+        this.total_servicos = 0.0;
     }
 
     public Evento(String nome, LocalDateTime data, String local, Integer capacidade) {
@@ -40,6 +42,7 @@ public class Evento {
         this.data = data;
         this.local = local;
         this.capacidade = capacidade;
+        this.total_servicos = 0.0;
     }
 
     public Integer getCapacidade() {
@@ -84,6 +87,13 @@ public class Evento {
 
     public List<Servico> getServicos() {
         return servicos;
+    }
+
+    public Double getTotal_servicos() {
+        return total_servicos;
+    }
+    public void setTotal_servicos(Double total_servicos) {
+        this.total_servicos = total_servicos;
     }
 
     public List<Participante> getParticipantes() {

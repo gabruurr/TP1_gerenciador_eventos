@@ -92,7 +92,7 @@ public class ServicoMenu {
         for (Evento eventoTmp : eventosDoOrganizador) {
             System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
         }
-        System.out.println("Informe o ID do evento que deseja contratar um serviço:");
+        System.out.println("\nInforme o ID do evento que deseja contratar um serviço:");
         int idEvento = sc.nextInt();
         sc.nextLine();
         Evento evento = eventoRepository.findById(idEvento).get();
@@ -104,12 +104,11 @@ public class ServicoMenu {
                 break;
             }
         }
-
         if (!eventoEncontrado) {
             System.out.println("\nInfelizmente esse evento não está sob organização de " + organizadorResponsavel.getNome() + " :(");
             return;
         }
-        System.out.println("Infome o ID do serviço desejado:");
+        System.out.println("\nInfome o ID do serviço desejado:");
         int idServico = sc.nextInt();
         sc.nextLine();
         Servico servico = servicoRepository.findById(idServico).get();
@@ -121,6 +120,8 @@ public class ServicoMenu {
 
         servico.setEvento(evento);
         evento.getServicos().add(servico);
+        evento.setTotal_servicos(evento.getTotal_servicos() + servico.getPreco());
+
         eventoRepository.save(evento);
         servicoRepository.save(servico);
 
@@ -145,6 +146,10 @@ public class ServicoMenu {
             if (!eventoTmp.getServicos().isEmpty()) {
                 System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
             }
+            else {
+                System.out.println("--- NÃO HÁ EVENTOS SOB CONTRATOS ---");
+                return;
+            }
         }
         System.out.println("\nDigite o ID do evento que deseja ver mais detalhes: ");
         int idEvento = sc.nextInt();
@@ -161,13 +166,16 @@ public class ServicoMenu {
 
         Servico servicoSelecionado = servicoRepository.findById(idServico).get();
 
-        evento.getServicos().remove(servicoSelecionado);
-        eventoRepository.save(evento);
-
         servicoSelecionado.setEvento(null);
+        evento.getServicos().remove(servicoSelecionado);
+        evento.setTotal_servicos(evento.getTotal_servicos() - servicoSelecionado.getPreco());
+
+        eventoRepository.save(evento);
         servicoRepository.save(servicoSelecionado);
 
         System.out.println("Serviço cancelado com sucesso!");
+        System.out.println("Total de serviços atualizado: R$" + evento.getTotal_servicos());
+
     }
 
     private void pesquisarServico() {
