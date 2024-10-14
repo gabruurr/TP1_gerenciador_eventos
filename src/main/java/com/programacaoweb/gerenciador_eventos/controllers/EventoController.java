@@ -35,5 +35,10 @@ public class EventoController {
     public Evento createEvento(@RequestBody Evento evento) {
         return eventoRepository.save(evento);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEventoById(@PathVariable Integer id) {
+        eventoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
