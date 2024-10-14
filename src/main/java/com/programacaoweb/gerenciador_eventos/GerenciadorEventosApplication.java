@@ -4,10 +4,7 @@ import com.programacaoweb.gerenciador_eventos.entities.Evento;
 import com.programacaoweb.gerenciador_eventos.entities.Participante;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ParticipanteRepository;
-import com.programacaoweb.gerenciador_eventos.utilities.EventoMenu;
-import com.programacaoweb.gerenciador_eventos.utilities.OrganizadorMenu;
-import com.programacaoweb.gerenciador_eventos.utilities.ParticipanteMenu;
-import com.programacaoweb.gerenciador_eventos.utilities.ServicoMenu;
+import com.programacaoweb.gerenciador_eventos.utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,10 +23,10 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
     private OrganizadorMenu organizadorMenu;
     @Autowired
     private ServicoMenu servicoMenu;
+
+    // gerar dados iniciais para agilizar, caso necessário, o momento da avaliação
     @Autowired
-    private ParticipanteRepository participanteRepository;
-    @Autowired
-    private EventoRepository eventoRepository;
+    private GeradorEntidades geradorEntidades;
 
 
     public static void main(String[] args) {
@@ -41,16 +38,8 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
         Scanner sc = new Scanner(System.in);
         int escolha;
         boolean continuar = true;
-        Participante participante = new Participante("Jose", "oieihfufh", "989289274");
-        Participante participante2 = new Participante("Maria", "oefofufoew", "2972492974");
-        participanteRepository.save(participante);
-        participanteRepository.save(participante2);
-        String data1 = "12/12/2024 12:30";
-        String data2 = "23/09/2024 12:30";
-        Evento evento = new Evento("Festa", LocalDateTime.parse(data1, Evento.fmtData), "12:30", 450);
-        Evento evento2 = new Evento("udyuyiy", LocalDateTime.parse(data2, Evento.fmtData), "17:00", 30);
-        eventoRepository.save(evento);
-        eventoRepository.save(evento2);
+
+        geradorEntidades.gerarEntidades();
 
         while (continuar) {
             System.out.println("\nPÁGINA INICIAL");

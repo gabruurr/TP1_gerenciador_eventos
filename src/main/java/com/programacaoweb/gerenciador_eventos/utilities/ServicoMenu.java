@@ -61,7 +61,7 @@ public class ServicoMenu {
         }
     }
 
-    public void cadastrarServico() {
+    private void cadastrarServico() {
         System.out.print("Digite o nome do serviço a ser prestado: ");
         String nome = sc.nextLine();
         System.out.print("Descreva brevemente o tipo de serviço: ");
@@ -75,7 +75,7 @@ public class ServicoMenu {
         System.out.println("Serviço de evento cadastrado com sucesso");
     }
 
-    public void contratarServico() {
+    private void contratarServico() {
         System.out.print("Digite o ID do serviço a ser contratado: ");
         int idServico = sc.nextInt();
         sc.nextLine();
@@ -99,7 +99,7 @@ public class ServicoMenu {
         System.out.println("Serviço \"" + servicoTmp.getNome() + "\" contratado com sucesso!");
     }
 
-    public void cancelarContratos() {
+    private void cancelarContratos() {
         System.out.println("Informe o ID do organizador responsável: ");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
@@ -142,7 +142,7 @@ public class ServicoMenu {
         System.out.println("Serviço cancelado com sucesso!");
     }
 
-    public void pesquisarServico() {
+    private void pesquisarServico() {
         System.out.print("Digite do nome do serviço buscado: ");
         String nome = sc.nextLine();
         List<Servico> servicos = servicoRepository.findByNomeContainingIgnoreCase(nome);
@@ -157,7 +157,7 @@ public class ServicoMenu {
         }
     }
 
-    public void deletarServico() {
+    private void deletarServico() {
         System.out.println("Digite o ID do serviço a ser deletado");
         int id = sc.nextInt();
         sc.nextLine();
@@ -172,7 +172,7 @@ public class ServicoMenu {
         System.out.println("Serviço deletado com sucesso!");
     }
 
-    public void atualizarServico() {
+    private void atualizarServico() {
         System.out.println("Digite o ID do serviço a ser atualizado: ");
         int idServico = sc.nextInt();
         sc.nextLine();

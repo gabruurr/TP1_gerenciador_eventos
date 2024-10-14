@@ -53,7 +53,7 @@ public class ParticipanteMenu {
         }
     }
 
-    public void cadastrarParticipanteMenu() {
+    private void cadastrarParticipanteMenu() {
         System.out.println("Digite o nome do participante: ");
         String nome = sc.nextLine();
         System.out.println("Digite o e-mail do participante: ");
@@ -65,7 +65,7 @@ public class ParticipanteMenu {
         System.out.println("\nParticipante cadastrado com sucesso!");
     }
 
-    public void inscreverParticipanteEmEventoMenu() {
+    private void inscreverParticipanteEmEventoMenu() {
         System.out.print("Digite o ID do participante a ser inscrito: ");
         int idParticipante = sc.nextInt();
         sc.nextLine();
@@ -93,7 +93,7 @@ public class ParticipanteMenu {
         System.out.println("Participante inscrito com sucesso!");
     }
 
-    public void pesquisarParticipanteMenu() {
+    private void pesquisarParticipanteMenu() {
         System.out.print("Digite do nome do participante a ser buscado: ");
         String nome = sc.nextLine();
         List<Participante> participantes = participanteRepository.findByNomeContainingIgnoreCase(nome);
@@ -108,7 +108,7 @@ public class ParticipanteMenu {
         }
     }
 
-    public void deletarParticipanteMenu() {
+    private void deletarParticipanteMenu() {
         System.out.println("Digite o ID do participante a ser deletado:");
         int idParticipante = sc.nextInt();
         sc.nextLine();
@@ -125,7 +125,7 @@ public class ParticipanteMenu {
         System.out.println("Participante deletado com sucesso!");
     }
 
-    public void atualizarParticipanteMenu() {
+    private void atualizarParticipanteMenu() {
         System.out.println("Digite o id do participante a ser atualizado: ");
         int id = sc.nextInt();
         Participante participanteEncontrado = participanteRepository.findById(id).get();

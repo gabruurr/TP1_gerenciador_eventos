@@ -45,7 +45,7 @@ public class EventoMenu {
         }
     }
 
-    public void cadastrarEventoMenu() {
+    private void cadastrarEventoMenu() {
         System.out.println("Digite o nome do evento: ");
         String nomeEvento = sc.nextLine();
         System.out.println("Digite a data do evento (DD/MM/YYYY): ");
@@ -63,7 +63,7 @@ public class EventoMenu {
         System.out.println("\nEvento cadastrado com sucesso!");
     }
 
-    public void pesquisarEventoMenu() {
+    private void pesquisarEventoMenu() {
         System.out.print("Digite do nome do evento a ser buscado: ");
         String nome = sc.nextLine();
         List<Evento> eventos = eventoRepository.findByNomeContainingIgnoreCase(nome);
@@ -78,7 +78,7 @@ public class EventoMenu {
         }
     }
 
-    public void deletarEventoMenu() {
+    private void deletarEventoMenu() {
         System.out.println("Digite o ID do evento a ser deletado:");
         int id = sc.nextInt();
         Evento evento = eventoRepository.findById(id).get();
@@ -94,7 +94,7 @@ public class EventoMenu {
         System.out.println("Evento deletado com sucesso!");
     }
 
-    public void atualizarEventoMenu() {
+    private void atualizarEventoMenu() {
         System.out.println("Digite o id do evento a ser atualizado: ");
         int id = sc.nextInt();
         Evento eventoEncontrado = eventoRepository.findById(id).get();

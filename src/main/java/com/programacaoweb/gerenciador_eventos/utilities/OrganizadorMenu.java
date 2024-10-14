@@ -55,7 +55,7 @@ public class OrganizadorMenu {
         }
     }
 
-    public void cadastrarOrganizadorMenu() {
+    private void cadastrarOrganizadorMenu() {
         System.out.println("Digite o nome do organizador: ");
         String nome = sc.nextLine();
         System.out.println("Digite o e-mail do organizador: ");
@@ -67,7 +67,7 @@ public class OrganizadorMenu {
         System.out.println("\nOrganizador cadastrado com sucesso!");
     }
 
-    public void cadastrarEventoOrganizadorMenu() {
+    private void cadastrarEventoOrganizadorMenu() {
         System.out.print("Digite o ID do organizador: ");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
@@ -89,7 +89,7 @@ public class OrganizadorMenu {
         System.out.println("Agora esse organizador é responsável pelo evento \"" + evento.getNome() + "\"");
     }
 
-    public void pesquisarOrganizadorMenu() {
+    private void pesquisarOrganizadorMenu() {
         System.out.print("Digite do nome do organizador a ser buscado: ");
         String nome = sc.nextLine();
         List<Organizador> organizadores = organizadorRepository.findByNomeContainingIgnoreCase(nome);
@@ -104,7 +104,7 @@ public class OrganizadorMenu {
         }
     }
 
-    public void deletarOrganizadorMenu() {
+    private void deletarOrganizadorMenu() {
         System.out.println("Digite o ID do organizador a ser deletado:");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
@@ -120,7 +120,7 @@ public class OrganizadorMenu {
         System.out.println("Organizador deletado com sucesso!");
     }
 
-    public void atualizarOrganizadorMenu() {
+    private void atualizarOrganizadorMenu() {
         System.out.println("Digite o id do organizador a ser atualizado: ");
         int id = sc.nextInt();
         Organizador organizadorEncontrado = organizadorRepository.findById(id).get();
@@ -167,7 +167,7 @@ public class OrganizadorMenu {
         System.out.println("Organizador atualizado com sucesso!");
     }
 
-    public void removerGestaoEvento(Organizador organizador) {
+    private void removerGestaoEvento(Organizador organizador) {
         if (organizador.getEventos().isEmpty()) {
             System.out.println("O organizador não é responsável por nenhum evento no momento!");
             return;
