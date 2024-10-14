@@ -41,6 +41,9 @@ public class ServicoMenu {
             case 3:
                 pesquisarServico();
                 break;
+            case 4:
+                deletarServico();
+                break;
             case 6:
                 return;
             default:
@@ -63,7 +66,7 @@ public class ServicoMenu {
         }
 
         public void contratarServico() {
-            System.out.print("Digite o ID do serviço a ser contratado");
+            System.out.print("Digite o ID do serviço a ser contratado: ");
             int idServico = sc.nextInt();
             sc.nextLine();
             Servico servicoTmp = servicoRepository.findById(idServico).get();
@@ -77,6 +80,8 @@ public class ServicoMenu {
             eventoTmp.getServicos().add(servicoTmp);
             eventoRepository.save(eventoTmp);
             servicoRepository.save(servicoTmp);
+
+            System.out.println("Serviço \"" + servicoTmp.getNome() + "\" contratado com sucesso!" );
         }
 
         public void pesquisarServico() {
@@ -92,6 +97,21 @@ public class ServicoMenu {
             } else {
                 System.out.println("Desculpe, não encontramos esse serviço :(");
             }
+        }
+
+        public void deletarServico() {
+            System.out.println("Digite o ID do serviço a ser deletado");
+            int id = sc.nextInt();
+            sc.nextLine();
+
+            Servico servicotmp = servicoRepository.findById(id).get();
+            if (servicotmp.getEvento() != null) {
+                System.out.println("\nO serviço \"" + servicotmp.getNome() +"\" está sob contrato! ");
+                System.out.println("Se deseja excluí-lo, cancele o contrato antes.");
+                return;
+            }
+            servicoRepository.deleteById(id);
+            System.out.println("Serviço deletado com sucesso!");
         }
     }
 
