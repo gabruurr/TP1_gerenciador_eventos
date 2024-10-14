@@ -57,7 +57,7 @@ public class GerenciadorEventosApplication implements CommandLineRunner {
             System.out.println("1 - Eventos");
             System.out.println("2 - Participantes");
             System.out.println("3 - Organizadores");
-            System.out.println("4 - Serviços prestados");
+            System.out.println("4 - Serviços de evento");
             System.out.println("5 - Fechar o Programa");
 
             System.out.print("Escolha uma opção: ");

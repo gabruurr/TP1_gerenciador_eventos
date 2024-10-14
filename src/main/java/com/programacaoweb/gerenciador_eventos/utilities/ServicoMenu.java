@@ -1,6 +1,8 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
+import com.programacaoweb.gerenciador_eventos.entities.Evento;
 import com.programacaoweb.gerenciador_eventos.entities.Servico;
+import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,12 +14,14 @@ public class ServicoMenu {
     Scanner sc = new Scanner(System.in);
     @Autowired
     ServicoRepository servicoRepository;
+    @Autowired
+    private EventoRepository eventoRepository;
 
     public void gerenciarServicos() {
         int escolha;
         System.out.println("\nQue operação deseja realizar? ");
         System.out.println("1 - Cadastrar serviço");
-        System.out.println("2 - Contratar serviço de evento");
+        System.out.println("2 - Contratar serviço para evento");
         System.out.println("3 - Pesquisar serviço");
         System.out.println("4 - Deletar serviço");
         System.out.println("5 - Atualizar serviço");
@@ -28,6 +32,9 @@ public class ServicoMenu {
         switch (escolha) {
             case 1:
                 cadastrarServico();
+                break;
+            case 2:
+                contratarServico();
                 break;
             case 6:
                 return;
@@ -48,6 +55,23 @@ public class ServicoMenu {
 
             servicoRepository.save(servico);
             System.out.println("Serviço de evento cadastrado com sucesso");
+        }
+
+        public void contratarServico() {
+            System.out.print("Digite o ID do serviço a ser contratado");
+            int idServico = sc.nextInt();
+            sc.nextLine();
+            Servico servicoTmp = servicoRepository.findById(idServico).get();
+
+            System.out.print("Digite o ID do evento para o qual deseja esse serviço: ");
+            int idEvento = sc.nextInt();
+            sc.nextLine();
+            Evento eventoTmp = eventoRepository.findById(idEvento).get();
+
+            servicoTmp.setEvento(eventoTmp);
+            eventoTmp.getServicos().add(servicoTmp);
+            eventoRepository.save(eventoTmp);
+            servicoRepository.save(servicoTmp);
         }
     }
 

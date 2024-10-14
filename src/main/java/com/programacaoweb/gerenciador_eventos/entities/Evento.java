@@ -18,7 +18,7 @@ public class Evento {
     private String local;
     private Integer capacidade;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER )
     private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
