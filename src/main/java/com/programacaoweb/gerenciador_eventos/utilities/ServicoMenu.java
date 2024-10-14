@@ -1,8 +1,10 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
+import com.programacaoweb.gerenciador_eventos.entities.Organizador;
 import com.programacaoweb.gerenciador_eventos.entities.Servico;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.OrganizadorRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,16 +19,19 @@ public class ServicoMenu {
     ServicoRepository servicoRepository;
     @Autowired
     private EventoRepository eventoRepository;
+    @Autowired
+    private OrganizadorRepository organizadorRepository;
 
     public void gerenciarServicos() {
         int escolha;
         System.out.println("\nQue operação deseja realizar? ");
         System.out.println("1 - Cadastrar serviço");
         System.out.println("2 - Contratar serviço para evento");
-        System.out.println("3 - Pesquisar serviço");
-        System.out.println("4 - Deletar serviço");
-        System.out.println("5 - Atualizar serviço");
-        System.out.println("6 - Retornar à Página Inicial");
+        System.out.println("3 - Cancelar contrato");
+        System.out.println("4 - Pesquisar serviço");
+        System.out.println("5 - Deletar serviço");
+        System.out.println("6 - Atualizar serviço");
+        System.out.println("7 - Retornar à Página Inicial");
         escolha = sc.nextInt();
         sc.nextLine();
 
@@ -38,15 +43,18 @@ public class ServicoMenu {
                 contratarServico();
                 break;
             case 3:
-                pesquisarServico();
+                cancelarContratos();
                 break;
             case 4:
-                deletarServico();
+                pesquisarServico();
                 break;
             case 5:
-                atualizarServico();
+                deletarServico();
                 break;
             case 6:
+                atualizarServico();
+                break;
+            case 7:
                 return;
             default:
                 System.out.println("Opção Inválida!");
@@ -164,6 +172,42 @@ public class ServicoMenu {
             default:
                 System.out.println("Entrada inválida!");
         }
+
+    }
+
+    public void cancelarContratos() {
+        System.out.println("Informe o ID do organizador responsável: ");
+        int idOrganizador = sc.nextInt();
+        sc.nextLine();
+        Organizador organizadorResponsavel = organizadorRepository.findById(idOrganizador).get();
+
+        List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
+        System.out.println("\nOs seguintes eventos de " + organizadorResponsavel.getNome() + " estão sob contratos:");
+        for (Evento eventoTmp : eventosDoOrganizador) {
+            if (!eventoTmp.getServicos().isEmpty()) {
+                System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
+            }
+        }
+        System.out.println("\nDigite o ID do evento que deseja ver mais detalhes: ");
+        int idEvento = sc.nextInt();
+        sc.nextLine();
+        Evento evento = eventoRepository.findById(idEvento).get();
+
+        System.out.println("\nServiços contratados para o evento \"" + evento.getNome() + "\" em " + evento.getLocal());
+        for (Servico servicoTmp : evento.getServicos()) {
+            System.out.println("\n - " + servicoTmp.getNome() + ", R$" + servicoTmp.getPreco() + " ---- ID: " + servicoTmp.getId());
+        }
+        System.out.println("Digite o ID do serviço a ser cancelado:");
+        int idServico = sc.nextInt() - 1;
+        sc.nextLine();
+
+        Servico servicoEscolhido = evento.getServicos().get(idServico);
+
+        evento.getServicos().remove(idServico);
+        servicoEscolhido.setEvento(null);
+
+        eventoRepository.save(evento);
+        servicoRepository.save(servicoEscolhido);
     }
 }
 

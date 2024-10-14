@@ -19,8 +19,6 @@ public class OrganizadorMenu {
     OrganizadorRepository organizadorRepository;
     @Autowired
     EventoRepository eventoRepository;
-    @Autowired
-    private ServicoRepository servicoRepository;
 
     public void gerenciarOrganizadores() {
         int escolha;
@@ -115,7 +113,6 @@ public class OrganizadorMenu {
 
         for (Evento evento : organizador.getEventos()) {
             evento.getOrganizadores().remove(organizador);
-            evento.setCapacidade(evento.getCapacidade() + 1);
             eventoRepository.save(evento);
         }
 
@@ -133,8 +130,7 @@ public class OrganizadorMenu {
         System.out.println("2 - E-mail");
         System.out.println("3 - Telefone");
         System.out.println("4 - Eventos");
-        System.out.println("5 - Cancelar contratos de um evento");
-        System.out.println("6 - Retornar à Página Inicial");
+        System.out.println("5 - Retornar à Página Inicial");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -162,9 +158,6 @@ public class OrganizadorMenu {
                 break;
 
             case 5:
-                cancelarContratos(organizadorEncontrado);
-                break;
-            case 6:
                 return;
 
             default:
@@ -180,7 +173,7 @@ public class OrganizadorMenu {
             return;
         }
 
-        System.out.println("Eventos aos quais o organizador é responsável:");
+        System.out.println("Eventos os quais o organizador é responsável:");
         for (int i = 0; i < organizador.getEventos().size(); i++) {
             System.out.println((i + 1) + " - " + organizador.getEventos().get(i).getNome());
         }
@@ -203,35 +196,5 @@ public class OrganizadorMenu {
         organizadorRepository.save(organizador);
 
         System.out.println("Organizador removido do evento com sucesso!");
-    }
-
-    public void cancelarContratos(Organizador organizador) {
-        List<Evento> eventosDoOrganizador = organizador.getEventos();
-        System.out.println("Os seguintes eventos de " + organizador.getNome() + " estão sob contratos:");
-        for (Evento eventoTmp : eventosDoOrganizador) {
-            if (!eventoTmp.getServicos().isEmpty()){
-                System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
-            }
-        }
-        System.out.println("Digite o ID do evento que deseja ver mais detalhes: ");
-        int idEvento = sc.nextInt();
-        sc.nextLine();
-        Evento evento = eventoRepository.findById(idEvento).get();
-
-        System.out.println("Serviços contratados para o evento \"" + evento.getNome() + "\" em " + evento.getLocal());
-        for (Servico servicoTmp : evento.getServicos()) {
-            System.out.println("\n - " + servicoTmp.getNome() + ", R$" + servicoTmp.getPreco() + " ---- ID: " + servicoTmp.getId());
-        }
-        System.out.println("Digite o ID do serviço a ser cancelado:");
-        int idServico = sc.nextInt();
-        sc.nextLine();
-
-        Servico servicoEscolhido = servicoRepository.findById(idServico).get();
-
-        evento.getServicos().remove(idServico - 1);
-        servicoEscolhido.setEvento(null);
-
-        eventoRepository.save(evento);
-        servicoRepository.save(servicoEscolhido);
     }
 }
