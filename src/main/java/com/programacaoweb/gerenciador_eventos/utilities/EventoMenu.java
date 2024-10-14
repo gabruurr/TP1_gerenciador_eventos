@@ -83,7 +83,7 @@ public class EventoMenu {
         int id = sc.nextInt();
         Evento evento = eventoRepository.findById(id).get();
         if (!evento.getParticipantes().isEmpty()){
-            System.out.println("Existem participantes inscritos nesse evento!");
+            System.out.println("Existem participantes inscritos nesse evento! Remova-os primeiro");
             return;
         }
         eventoRepository.deleteById(id);
@@ -111,9 +111,11 @@ public class EventoMenu {
                 break;
 
             case 2:
-                System.out.println("Digite a nova data e hora do evento (DD/MM/YYYY HH:mm):");
+                System.out.println("Digite a nova data do evento (DD/MM/YYYY):");
                 String novaData = sc.nextLine();
-                LocalDateTime data = LocalDateTime.parse(novaData, Evento.fmtData);
+                System.out.println("Digite a nova hora do evento (HH:mm):");
+                String novaHora = sc.nextLine();
+                LocalDateTime data = LocalDateTime.parse(novaData + " " + novaHora, Evento.fmtData);
                 eventoEncontrado.setData(data);
                 break;
 

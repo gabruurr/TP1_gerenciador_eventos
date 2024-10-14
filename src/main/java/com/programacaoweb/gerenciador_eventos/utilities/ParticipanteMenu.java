@@ -78,7 +78,7 @@ public class ParticipanteMenu {
 
         Evento evento = eventoRepository.findById(idEvento).get();
 
-        if (evento.getParticipantes().size() >= evento.getCapacidade()) {
+        if (evento.getCapacidade() <= 0) {
             System.out.println("Desculpe, o evento está cheio!");
             return;
         }
@@ -92,7 +92,6 @@ public class ParticipanteMenu {
 
         System.out.println("Participante inscrito com sucesso!");
     }
-
 
     public void pesquisarParticipanteMenu() {
         System.out.print("Digite do nome do participante a ser buscado: ");
