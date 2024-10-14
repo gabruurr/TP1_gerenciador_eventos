@@ -90,21 +90,28 @@ public class ServicoMenu {
         }
         System.out.println("\nEstes são os eventos os quais " + organizadorResponsavel.getNome() + " tem responsabilidade:");
         for (Evento eventoTmp : eventosDoOrganizador) {
-                System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
+            System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
         }
         System.out.println("Informe o ID do evento que deseja contratar um serviço:");
         int idEvento = sc.nextInt();
         sc.nextLine();
         Evento evento = eventoRepository.findById(idEvento).get();
 
-        if (!eventosDoOrganizador.contains(evento)) {
+        boolean eventoEncontrado = false;
+        for (Evento eventoTmp : eventosDoOrganizador) {
+            if (eventoTmp.getId().equals(evento.getId())) {
+                eventoEncontrado = true;
+                break;
+            }
+        }
+
+        if (!eventoEncontrado) {
             System.out.println("\nInfelizmente esse evento não está sob organização de " + organizadorResponsavel.getNome() + " :(");
             return;
         }
         System.out.println("Infome o ID do serviço desejado:");
         int idServico = sc.nextInt();
         sc.nextLine();
-
         Servico servico = servicoRepository.findById(idServico).get();
 
         if (servico.getEvento() != null) {

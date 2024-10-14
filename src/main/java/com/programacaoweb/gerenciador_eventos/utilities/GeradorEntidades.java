@@ -43,7 +43,7 @@ public class GeradorEntidades {
         organizadorRepository.save(organizador2);
 
         Servico servico = new Servico("Palestra", "Profissional contratado para dar uma palestra", 250.00);
-        Servico servico2 = new Servico("Criticos", "Criticos especializados contratados para avaliar obras", 250.00);
+        Servico servico2 = new Servico("Criticos", "Criticos especializados contratados para avaliar obras", 500.00);
         servicoRepository.save(servico);
         servicoRepository.save(servico2);
     }
