@@ -48,9 +48,11 @@ public class EventoMenu {
     public void cadastrarEventoMenu() {
         System.out.println("Digite o nome do evento: ");
         String nomeEvento = sc.nextLine();
-        System.out.println("Digite a data e hora do evento(DD/MM/YYYY HH:mm): ");
+        System.out.println("Digite a data do evento (DD/MM/YYYY): ");
         String dataEvento = sc.nextLine();
-        LocalDateTime data = LocalDateTime.parse(dataEvento, Evento.fmtData);
+        System.out.println("Digite a hora do evento (HH:mm): ");
+        String horaEvento = sc.nextLine();
+        LocalDateTime data = LocalDateTime.parse(dataEvento + " " + horaEvento, Evento.fmtData);
         System.out.println("Informe o local do evento:");
         String local = sc.nextLine();
         System.out.println("Informe a capacidade total de participantes:");
@@ -65,6 +67,10 @@ public class EventoMenu {
         System.out.print("Digite do nome do evento a ser buscado: ");
         String nome = sc.nextLine();
         List<Evento> eventos = eventoRepository.findByNomeContainingIgnoreCase(nome);
+        List<Evento> todosEventos = eventoRepository.findAll();
+        if (nome == null) {
+            todosEventos.forEach(System.out::println);
+        }
         if (!eventos.isEmpty()) {
             eventos.forEach(System.out::println);
         } else {
@@ -75,6 +81,11 @@ public class EventoMenu {
     public void deletarEventoMenu() {
         System.out.println("Digite o ID do evento a ser deletado:");
         int id = sc.nextInt();
+        Evento evento = eventoRepository.findById(id).get();
+        if (!evento.getParticipantes().isEmpty()){
+            System.out.println("Existem participantes inscritos nesse evento!");
+            return;
+        }
         eventoRepository.deleteById(id);
         System.out.println("Evento deletado com sucesso!");
     }

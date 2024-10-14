@@ -98,6 +98,10 @@ public class ParticipanteMenu {
         System.out.print("Digite do nome do participante a ser buscado: ");
         String nome = sc.nextLine();
         List<Participante> participantes = participanteRepository.findByNomeContainingIgnoreCase(nome);
+        List<Participante> todosParticipantes = participanteRepository.findAll();
+        if (nome == null) {
+            todosParticipantes.forEach(System.out::println);
+        }
         if (!participantes.isEmpty()) {
             participantes.forEach(System.out::println);
         } else {
@@ -107,10 +111,18 @@ public class ParticipanteMenu {
 
     public void deletarParticipanteMenu() {
         System.out.println("Digite o ID do participante a ser deletado:");
-        int id = sc.nextInt();
-        Participante participante = participanteRepository.findById(id).get();
-        removerInscricaoEvento(participante);
-        participanteRepository.deleteById(id);
+        int idParticipante = sc.nextInt();
+        sc.nextLine();
+
+        Participante participante = participanteRepository.findById(idParticipante).get();
+
+        for (Evento evento : participante.getEventos()) {
+            evento.getParticipantes().remove(participante);
+            evento.setCapacidade(evento.getCapacidade() + 1);
+            eventoRepository.save(evento);
+        }
+
+        participanteRepository.delete(participante);
         System.out.println("Participante deletado com sucesso!");
     }
 
@@ -182,6 +194,7 @@ public class ParticipanteMenu {
         eventoSelecionado.getParticipantes().remove(participante);
         participante.getEventos().remove(eventoSelecionado);
         eventoSelecionado.setCapacidade(eventoSelecionado.getCapacidade() + 1);
+
         eventoRepository.save(eventoSelecionado);
         participanteRepository.save(participante);
 

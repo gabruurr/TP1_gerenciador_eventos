@@ -61,4 +61,24 @@ public class Participante {
     public List<Evento> getEventos() {
         return eventos;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder eventosInscritos = new StringBuilder();
+
+        if (eventos.isEmpty()) {
+            eventosInscritos.append("Nenhum evento inscrito");
+        }
+        else {
+            for (Evento evento : eventos) {
+                eventosInscritos.append("\n- ").append(evento.getNome());
+            }
+        }
+        return "\nNome: " + nome +
+                "\nID: " + id +
+                "\nE-mail: " + email +
+                "\nNúmero de telefone: " + telefone +
+                "\nEventos inscritos: " + eventosInscritos;
+
+    }
 }
