@@ -96,10 +96,21 @@ public class Evento {
 
     @Override
     public String toString() {
+        StringBuilder servicosContratados = new StringBuilder();
+
+        if (servicos.isEmpty()) {
+            servicosContratados.append("Nenhum serviço contratado");
+        }
+        else {
+            for (Servico servico : servicos) {
+                servicosContratados.append("\n- ").append(servico.getNome());
+            }
+        }
         return "\nNome do evento: " + nome +
                 "\nID: " + id +
                 "\nData e hora: " + data.format(fmtData) +
                 "\nLocal: " + local +
-                "\nCapacidade de participantes: " + capacidade + "\n";
+                "\nCapacidade de participantes: " + capacidade + "\n" +
+                "\nAtividades: " + servicosContratados;
     }
 }

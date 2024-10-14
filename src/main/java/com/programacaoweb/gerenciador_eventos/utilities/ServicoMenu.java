@@ -76,27 +76,50 @@ public class ServicoMenu {
     }
 
     private void contratarServico() {
-        System.out.print("Digite o ID do serviço a ser contratado: ");
+        System.out.println("Informe o ID do organizador responsável: ");
+        int idOrganizador = sc.nextInt();
+        sc.nextLine();
+        Organizador organizadorResponsavel = organizadorRepository.findById(idOrganizador).get();
+
+        List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
+
+        if (eventosDoOrganizador.isEmpty()) {
+            System.out.println("\nO organizador " + organizadorResponsavel.getNome() + " não é responsável por nenhum evento no momento!");
+            System.out.println("Selecione um organizador válido e tente novamente.");
+            return;
+        }
+        System.out.println("\nEstes são os eventos os quais " + organizadorResponsavel.getNome() + " tem responsabilidade:");
+        for (Evento eventoTmp : eventosDoOrganizador) {
+            if (!eventoTmp.getServicos().isEmpty()) {
+                System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
+            }
+        }
+        System.out.println("Informe o ID do evento que deseja contratar um serviço:");
+        int idEvento = sc.nextInt();
+        sc.nextLine();
+        Evento evento = eventoRepository.findById(idEvento).get();
+
+        if (!eventosDoOrganizador.contains(evento)) {
+            System.out.println("\nInfelizmente esse evento não está sob organização de " + organizadorResponsavel.getNome() + " :(");
+            return;
+        }
+        System.out.println("Infome o ID do serviço desejado:");
         int idServico = sc.nextInt();
         sc.nextLine();
-        Servico servicoTmp = servicoRepository.findById(idServico).get();
 
-        if (servicoTmp.getEvento() != null) {
+        Servico servico = servicoRepository.findById(idServico).get();
+
+        if (servico.getEvento() != null) {
             System.out.println("Esse serviço já está sob contrato!");
             return;
         }
 
-        System.out.print("Digite o ID do evento para o qual deseja esse serviço: ");
-        int idEvento = sc.nextInt();
-        sc.nextLine();
-        Evento eventoTmp = eventoRepository.findById(idEvento).get();
+        servico.setEvento(evento);
+        evento.getServicos().add(servico);
+        eventoRepository.save(evento);
+        servicoRepository.save(servico);
 
-        servicoTmp.setEvento(eventoTmp);
-        eventoTmp.getServicos().add(servicoTmp);
-        eventoRepository.save(eventoTmp);
-        servicoRepository.save(servicoTmp);
-
-        System.out.println("Serviço \"" + servicoTmp.getNome() + "\" contratado com sucesso!");
+        System.out.println("Serviço \"" + servico.getNome() + "\" contratado com sucesso!");
     }
 
     private void cancelarContratos() {
@@ -162,9 +185,9 @@ public class ServicoMenu {
         int id = sc.nextInt();
         sc.nextLine();
 
-        Servico servicotmp = servicoRepository.findById(id).get();
-        if (servicotmp.getEvento() != null) {
-            System.out.println("\nO serviço \"" + servicotmp.getNome() + "\" está sob contrato! ");
+        Servico servico = servicoRepository.findById(id).get();
+        if (servico.getEvento() != null) {
+            System.out.println("\nO serviço \"" + servico.getNome() + "\" está sob contrato! ");
             System.out.println("Se deseja excluí-lo, cancele o contrato antes.");
             return;
         }
@@ -177,7 +200,7 @@ public class ServicoMenu {
         int idServico = sc.nextInt();
         sc.nextLine();
 
-        Servico servicoTmp = servicoRepository.findById(idServico).get();
+        Servico servico = servicoRepository.findById(idServico).get();
 
         System.out.println("Que tipo de operação deseja fazer?");
         System.out.println("1 - Nome");
@@ -191,15 +214,15 @@ public class ServicoMenu {
             case 1:
                 System.out.println("Digite o novo nome do serviço: ");
                 String novoNome = sc.nextLine();
-                servicoTmp.setNome(novoNome);
-                servicoRepository.save(servicoTmp);
+                servico.setNome(novoNome);
+                servicoRepository.save(servico);
                 System.out.println("Nome alterado!");
                 break;
             case 2:
                 System.out.println("Digite a nova descrição do serviço: ");
                 String novaDesc = sc.nextLine();
-                servicoTmp.setNome(novaDesc);
-                servicoRepository.save(servicoTmp);
+                servico.setNome(novaDesc);
+                servicoRepository.save(servico);
                 System.out.println("Descrição alterada!");
                 break;
             case 3:
@@ -207,13 +230,13 @@ public class ServicoMenu {
                 Double novoValor = sc.nextDouble();
                 sc.nextLine();
 
-                if (servicoTmp.getEvento() != null) {
+                if (servico.getEvento() != null) {
                     System.out.println("Esse serviço está contratado! Não é possível alterar o valor fixo no momento.");
                     return;
                 }
-                servicoTmp.setPreco(novoValor);
+                servico.setPreco(novoValor);
                 System.out.println("Preço alterado!");
-                servicoRepository.save(servicoTmp);
+                servicoRepository.save(servico);
                 break;
             case 4:
                 return;
@@ -222,4 +245,3 @@ public class ServicoMenu {
         }
     }
 }
-
