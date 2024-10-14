@@ -90,9 +90,7 @@ public class ServicoMenu {
         }
         System.out.println("\nEstes são os eventos os quais " + organizadorResponsavel.getNome() + " tem responsabilidade:");
         for (Evento eventoTmp : eventosDoOrganizador) {
-            if (!eventoTmp.getServicos().isEmpty()) {
                 System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
-            }
         }
         System.out.println("Informe o ID do evento que deseja contratar um serviço:");
         int idEvento = sc.nextInt();
