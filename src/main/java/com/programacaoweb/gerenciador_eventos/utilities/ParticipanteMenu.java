@@ -85,6 +85,7 @@ public class ParticipanteMenu {
 
         evento.getParticipantes().add(participante);
         participante.getEventos().add(evento);
+        evento.setCapacidade(evento.getCapacidade() - 1);
 
         participanteRepository.save(participante);
         eventoRepository.save(evento);
@@ -180,7 +181,7 @@ public class ParticipanteMenu {
 
         eventoSelecionado.getParticipantes().remove(participante);
         participante.getEventos().remove(eventoSelecionado);
-
+        eventoSelecionado.setCapacidade(eventoSelecionado.getCapacidade() + 1);
         eventoRepository.save(eventoSelecionado);
         participanteRepository.save(participante);
 
