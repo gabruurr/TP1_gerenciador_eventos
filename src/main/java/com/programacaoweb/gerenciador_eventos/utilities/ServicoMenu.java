@@ -1,12 +1,14 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
+import com.programacaoweb.gerenciador_eventos.entities.Organizador;
 import com.programacaoweb.gerenciador_eventos.entities.Servico;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -35,6 +37,9 @@ public class ServicoMenu {
                 break;
             case 2:
                 contratarServico();
+                break;
+            case 3:
+                pesquisarServico();
                 break;
             case 6:
                 return;
@@ -72,6 +77,21 @@ public class ServicoMenu {
             eventoTmp.getServicos().add(servicoTmp);
             eventoRepository.save(eventoTmp);
             servicoRepository.save(servicoTmp);
+        }
+
+        public void pesquisarServico() {
+            System.out.print("Digite do nome do serviço buscado: ");
+            String nome = sc.nextLine();
+            List<Servico> servicos = servicoRepository.findByNomeContainingIgnoreCase(nome);
+            List<Servico> todosOsServicos = servicoRepository.findAll();
+            if (nome == null) {
+                todosOsServicos.forEach(System.out::println);
+            }
+            if (!servicos.isEmpty()) {
+                servicos.forEach(System.out::println);
+            } else {
+                System.out.println("Desculpe, não encontramos esse serviço :(");
+            }
         }
     }
 
