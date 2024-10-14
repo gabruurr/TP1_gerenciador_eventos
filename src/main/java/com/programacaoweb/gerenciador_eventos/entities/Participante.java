@@ -14,7 +14,7 @@ public class Participante {
     private String email;
     private String telefone;
 
-    @ManyToMany(mappedBy = "participantes")
+    @ManyToMany(mappedBy = "participantes", fetch = FetchType.EAGER)
     private List<Evento> eventos = new ArrayList<>();
 
     public Participante() {

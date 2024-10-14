@@ -1,6 +1,8 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
+import com.programacaoweb.gerenciador_eventos.entities.Evento;
 import com.programacaoweb.gerenciador_eventos.entities.Participante;
+import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,8 @@ public class ParticipanteMenu {
     Scanner sc = new Scanner(System.in);
     @Autowired
     ParticipanteRepository participanteRepository;
+    @Autowired
+    EventoRepository eventoRepository;
 
     public void gerenciarParticipantes() {
         int escolha;
@@ -30,6 +34,9 @@ public class ParticipanteMenu {
             case 1:
                 cadastrarParticipanteMenu();
                 break;
+            case 2:
+                inscreverParticipanteEmEventoMenu();
+                break;
             case 3:
                 pesquisarParticipanteMenu();
                 break;
@@ -38,6 +45,7 @@ public class ParticipanteMenu {
                 break;
             case 5:
                 atualizarParticipanteMenu();
+                break;
             case 6:
                 return;
             default:
@@ -57,6 +65,34 @@ public class ParticipanteMenu {
         System.out.println("\nParticipante cadastrado com sucesso!");
     }
 
+    public void inscreverParticipanteEmEventoMenu() {
+        System.out.print("Digite o ID do participante a ser inscrito: ");
+        int idParticipante = sc.nextInt();
+        sc.nextLine();
+
+        Participante participante = participanteRepository.findById(idParticipante).get();
+
+        System.out.print("Digite o ID do evento no qual deseja inscrever o participante: ");
+        int idEvento = sc.nextInt();
+        sc.nextLine();
+
+        Evento evento = eventoRepository.findById(idEvento).get();
+
+        if (evento.getParticipantes().size() >= evento.getCapacidade()) {
+            System.out.println("Desculpe, o evento está cheio!");
+            return;
+        }
+
+        evento.getParticipantes().add(participante);
+        participante.getEventos().add(evento);
+
+        participanteRepository.save(participante);
+        eventoRepository.save(evento);
+
+        System.out.println("Participante inscrito com sucesso!");
+    }
+
+
     public void pesquisarParticipanteMenu() {
         System.out.print("Digite do nome do participante a ser buscado: ");
         String nome = sc.nextLine();
@@ -71,6 +107,8 @@ public class ParticipanteMenu {
     public void deletarParticipanteMenu() {
         System.out.println("Digite o ID do participante a ser deletado:");
         int id = sc.nextInt();
+        Participante participante = participanteRepository.findById(id).get();
+        removerInscricaoEvento(participante);
         participanteRepository.deleteById(id);
         System.out.println("Participante deletado com sucesso!");
     }
@@ -84,7 +122,7 @@ public class ParticipanteMenu {
         System.out.println("1 - Nome");
         System.out.println("2 - E-mail");
         System.out.println("3 - Telefone");
-        System.out.println("3 - Eventos inscritos");
+        System.out.println("4 - Eventos inscritos");
         int escolha = sc.nextInt();
         sc.nextLine();
 
@@ -108,9 +146,7 @@ public class ParticipanteMenu {
                 break;
 
             case 4:
-                System.out.println("Digite o ID do evento:");
-                int idEvento = sc.nextInt();
-                sc.nextLine();
+                removerInscricaoEvento(participanteEncontrado);
                 break;
 
             default:
@@ -118,5 +154,36 @@ public class ParticipanteMenu {
         }
         participanteRepository.save(participanteEncontrado);
         System.out.println("Participante atualizado com sucesso!");
+    }
+
+    private void removerInscricaoEvento(Participante participante) {
+        if (participante.getEventos().isEmpty()) {
+            System.out.println("O participante não está inscrito em nenhum evento.");
+            return;
+        }
+
+        System.out.println("Eventos aos quais o participante está inscrito:");
+        for (int i = 0; i < participante.getEventos().size(); i++) {
+            System.out.println((i + 1) + " - " + participante.getEventos().get(i).getNome());
+        }
+
+        System.out.print("Digite o ID do evento do qual deseja remover a inscrição: ");
+        int idEvento = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (idEvento < 0 || idEvento >= participante.getEventos().size()) {
+            System.out.println("Escolha inválida!");
+            return;
+        }
+
+        Evento eventoSelecionado = participante.getEventos().get(idEvento);
+
+        eventoSelecionado.getParticipantes().remove(participante);
+        participante.getEventos().remove(eventoSelecionado);
+
+        eventoRepository.save(eventoSelecionado);
+        participanteRepository.save(participante);
+
+        System.out.println("Participante removido do evento com sucesso!");
     }
 }

@@ -21,8 +21,8 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servico> servicos = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "evento_participante", joinColumns = @JoinColumn(name = "evento_id"),
+    @ManyToMany(fetch = FetchType.EAGER)
+            @JoinTable(name = "evento_participante", joinColumns = @JoinColumn(name = "evento_id"),
             inverseJoinColumns = @JoinColumn(name = "participante_id"))
     private List<Participante> participantes = new ArrayList<>();
 
