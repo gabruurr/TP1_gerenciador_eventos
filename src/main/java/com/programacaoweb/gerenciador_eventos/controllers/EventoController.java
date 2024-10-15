@@ -16,8 +16,9 @@ public class EventoController {
     private EventoRepository eventoRepository;
 
     @GetMapping
-    public List<Evento> getAllEventos() {
-        return eventoRepository.findAll();
+    public ResponseEntity<List<Evento>> findAllEventos() {
+        List<Evento> eventos = eventoRepository.findAll();
+        return ResponseEntity.ok().body(eventos);
     }
 
     @GetMapping(value = "/{id}")
@@ -40,5 +41,4 @@ public class EventoController {
         eventoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 }
