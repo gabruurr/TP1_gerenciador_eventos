@@ -27,7 +27,7 @@ public class OrganizadorController {
         return ResponseEntity.ok().body(organizador);
     }
 
-    @GetMapping(value = "/{nome}")
+    @GetMapping(value = "/nome/{nome}")
     public List<Organizador> getOrganizadorByNome(@PathVariable String nome) {
         return organizadorRepository.findByNomeContainingIgnoreCase(nome);
     }

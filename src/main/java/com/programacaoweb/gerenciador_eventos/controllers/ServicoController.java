@@ -27,7 +27,7 @@ public class ServicoController {
         return ResponseEntity.ok().body(servico);
     }
 
-    @GetMapping(value = "/{nome}")
+    @GetMapping(value = "/nome/{nome}")
     public List<Servico> getServicoByNome(@PathVariable String nome) {
         return servicoRepository.findByNomeContainingIgnoreCase(nome);
     }

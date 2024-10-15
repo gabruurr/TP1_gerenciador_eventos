@@ -27,7 +27,7 @@ public class EventoController {
         return ResponseEntity.ok().body(evento);
     }
 
-    @GetMapping(value = "/{nome}")
+    @GetMapping(value = "/nome/{nome}")
     public List<Evento> getEventoByNome(@PathVariable String nome) {
         return eventoRepository.findByNomeContainingIgnoreCase(nome);
     }

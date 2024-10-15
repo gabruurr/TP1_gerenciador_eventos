@@ -36,7 +36,7 @@ public class ParticipanteController {
     public Participante createParticipante(@RequestBody Participante participante) {
         return participanteRepository.save(participante);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/nome/{id}")
     public ResponseEntity<Void> deleteParticipanteById(@PathVariable Integer id) {
         participanteRepository.deleteById(id);
         return ResponseEntity.noContent().build();
