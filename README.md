@@ -1,4 +1,6 @@
 # Gerenciador de Eventos
+de: Pedro Gabryel Araújo do Nascimento
+
 ![Banco de Dados do Projeto](imagens/bancoDiagrama.png)
 
 ## Descrição do Projeto
