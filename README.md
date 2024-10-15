@@ -1,6 +1,5 @@
 # Gerenciador de Eventos
-<<<<<<< HEAD
-![Banco de Dados do Projeto](imagens\bancoDiagrama.png)
+![Banco de Dados do Projeto](imagens/bancoDiagrama.png)
 
 ## Descrição do Projeto
 
