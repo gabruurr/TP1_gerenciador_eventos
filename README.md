@@ -1,5 +1,5 @@
 # Gerenciador de Eventos
-![Banco de Dados do Projeto](imagens\bancoNormalizado.png)
+![Banco de Dados do Projeto](imagens/bancoNormalizado.png)
 ## Descrição do Projeto
 
 Esse projeto consiste em um CRUD com funcionalidades voltadas a um gerenciador de eventos, como pequenas convenções, reuniões ou festas. É uma aplicação simples desenvolvida em Java utilizando o framework Spring Boot. O projeto possibilita a gestão de eventos, permitindo que organizadores, participantes e serviços sejam gerenciados, assim como seus dados específicos. A aplicação oferece uma interface de linha de comando que permite a interação do usuário com as funcionalidades disponíveis.
