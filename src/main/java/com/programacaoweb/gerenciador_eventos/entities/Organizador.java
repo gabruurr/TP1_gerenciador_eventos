@@ -1,5 +1,6 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Organizador {
     private String telefone;
 
     @ManyToMany(mappedBy = "organizadores", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Evento> eventos = new ArrayList<>();
 
     public Organizador() {

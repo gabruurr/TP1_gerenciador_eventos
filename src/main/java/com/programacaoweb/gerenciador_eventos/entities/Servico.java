@@ -1,5 +1,6 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class Servico {
     private Double preco;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "evento_id")
     private Evento evento;
 
