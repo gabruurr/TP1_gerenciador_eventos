@@ -1,16 +1,11 @@
 package com.programacaoweb.gerenciador_eventos;
 
-import com.programacaoweb.gerenciador_eventos.entities.Evento;
-import com.programacaoweb.gerenciador_eventos.entities.Participante;
-import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
-import com.programacaoweb.gerenciador_eventos.repositories.ParticipanteRepository;
 import com.programacaoweb.gerenciador_eventos.utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 @SpringBootApplication
