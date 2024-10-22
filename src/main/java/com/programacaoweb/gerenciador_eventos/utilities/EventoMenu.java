@@ -134,7 +134,7 @@ public class EventoMenu {
                 System.out.println("Digite a nova capacidade de participantes:");
                 int novaCapacidade = sc.nextInt();
                 sc.nextLine();
-                eventoEncontrado.setCapacidade(novaCapacidade);
+                eventoEncontrado.setVagas(novaCapacidade);
                 break;
 
             case 5:

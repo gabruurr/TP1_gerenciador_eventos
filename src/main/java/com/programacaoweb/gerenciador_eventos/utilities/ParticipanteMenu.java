@@ -78,14 +78,14 @@ public class ParticipanteMenu {
 
         Evento evento = eventoRepository.findById(idEvento).get();
 
-        if (evento.getCapacidade() <= 0) {
+        if (evento.getVagas() <= 0) {
             System.out.println("Desculpe, o evento está cheio!");
             return;
         }
 
         evento.getParticipantes().add(participante);
         participante.getEventos().add(evento);
-        evento.setCapacidade(evento.getCapacidade() - 1);
+        evento.setVagas(evento.getVagas() - 1);
 
         participanteRepository.save(participante);
         eventoRepository.save(evento);
@@ -117,7 +117,7 @@ public class ParticipanteMenu {
 
         for (Evento evento : participante.getEventos()) {
             evento.getParticipantes().remove(participante);
-            evento.setCapacidade(evento.getCapacidade() + 1);
+            evento.setVagas(evento.getVagas() + 1);
             eventoRepository.save(evento);
         }
 
@@ -196,7 +196,7 @@ public class ParticipanteMenu {
 
         eventoSelecionado.getParticipantes().remove(participante);
         participante.getEventos().remove(eventoSelecionado);
-        eventoSelecionado.setCapacidade(eventoSelecionado.getCapacidade() + 1);
+        eventoSelecionado.setVagas(eventoSelecionado.getVagas() + 1);
 
         eventoRepository.save(eventoSelecionado);
         participanteRepository.save(participante);

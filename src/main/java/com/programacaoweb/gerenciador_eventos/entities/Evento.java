@@ -16,7 +16,7 @@ public class Evento {
     private String nome;
     private LocalDateTime data;
     private String local;
-    private Integer capacidade;
+    private Integer vagas;
     private Double total_servicos;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
@@ -37,20 +37,20 @@ public class Evento {
         this.total_servicos = 0.0;
     }
 
-    public Evento(String nome, LocalDateTime data, String local, Integer capacidade) {
+    public Evento(String nome, LocalDateTime data, String local, Integer vagas) {
         this.nome = nome;
         this.data = data;
         this.local = local;
-        this.capacidade = capacidade;
+        this.vagas = vagas;
         this.total_servicos = 0.0;
     }
 
-    public Integer getCapacidade() {
-        return capacidade;
+    public Integer getVagas() {
+        return vagas;
     }
 
-    public void setCapacidade(Integer capacidade) {
-        this.capacidade = capacidade;
+    public void setVagas(Integer vagas) {
+        this.vagas = vagas;
     }
 
     public String getLocal() {
@@ -120,7 +120,7 @@ public class Evento {
                 "\nID: " + id +
                 "\nData e hora: " + data.format(fmtData) +
                 "\nLocal: " + local +
-                "\nCapacidade de participantes: " + capacidade + "\n" +
+                "\nVagas de participantes: " + vagas + "\n" +
                 "\nAtividades: " + servicosContratados;
     }
 }
