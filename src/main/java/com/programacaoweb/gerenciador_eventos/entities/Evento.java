@@ -1,6 +1,9 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Evento {
     public static final DateTimeFormatter fmtData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     @Id
@@ -33,75 +38,12 @@ public class Evento {
     private List<Organizador> organizadores = new ArrayList<>();
 
 
-    public Evento() {
-        this.total_servicos = 0.0;
-    }
-
     public Evento(String nome, LocalDateTime data, String local, Integer vagas) {
         this.nome = nome;
         this.data = data;
         this.local = local;
         this.vagas = vagas;
         this.total_servicos = 0.0;
-    }
-
-    public Integer getVagas() {
-        return vagas;
-    }
-
-    public void setVagas(Integer vagas) {
-        this.vagas = vagas;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public List<Servico> getServicos() {
-        return servicos;
-    }
-
-    public Double getTotal_servicos() {
-        return total_servicos;
-    }
-    public void setTotal_servicos(Double total_servicos) {
-        this.total_servicos = total_servicos;
-    }
-
-    public List<Participante> getParticipantes() {
-        return participantes;
-    }
-
-    public List<Organizador> getOrganizadores() {
-        return organizadores;
     }
 
     @Override
