@@ -1,10 +1,10 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
-import com.programacaoweb.gerenciador_eventos.entities.Organizador;
+import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
 import com.programacaoweb.gerenciador_eventos.entities.Servico;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
-import com.programacaoweb.gerenciador_eventos.repositories.OrganizadorRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.PessoaRepository;
 import com.programacaoweb.gerenciador_eventos.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class ServicoMenu {
     @Autowired
     private EventoRepository eventoRepository;
     @Autowired
-    private OrganizadorRepository organizadorRepository;
+    private PessoaRepository pessoaRepository;
 
     public void gerenciarServicos() {
         int escolha;
@@ -79,7 +79,7 @@ public class ServicoMenu {
         System.out.println("Informe o ID do organizador responsável: ");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
-        Organizador organizadorResponsavel = organizadorRepository.findById(idOrganizador).get();
+        Pessoa organizadorResponsavel = pessoaRepository.findById(idOrganizador).get();
 
         List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
 
@@ -132,7 +132,7 @@ public class ServicoMenu {
         System.out.println("Informe o ID do organizador responsável: ");
         int idOrganizador = sc.nextInt();
         sc.nextLine();
-        Organizador organizadorResponsavel = organizadorRepository.findById(idOrganizador).get();
+        Pessoa organizadorResponsavel = pessoaRepository.findById(idOrganizador).get();
 
         List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
 

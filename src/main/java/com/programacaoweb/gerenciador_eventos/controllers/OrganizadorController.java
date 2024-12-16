@@ -1,7 +1,8 @@
 package com.programacaoweb.gerenciador_eventos.controllers;
 
-import com.programacaoweb.gerenciador_eventos.entities.Organizador;
-import com.programacaoweb.gerenciador_eventos.repositories.OrganizadorRepository;
+import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
+import com.programacaoweb.gerenciador_eventos.repositories.PessoaRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.TipoPessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,48 +15,49 @@ import java.util.List;
 public class OrganizadorController {
 
     @Autowired
-    private OrganizadorRepository organizadorRepository;
+    private PessoaRepository pessoaRepository;
+    @Autowired
+    private TipoPessoaRepository tipoPessoaRepository;
 
     @GetMapping
-    public ResponseEntity<List<Organizador>> findAllOrganizador() {
-        List<Organizador> organizadores = organizadorRepository.findAll();
+    public ResponseEntity<List<Pessoa>> findAllOrganizador() {
+        List<Pessoa> organizadores = pessoaRepository.findByTipoPessoa(tipoPessoaRepository.findById(2).get());
         return ResponseEntity.ok().body(organizadores);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Organizador> getOrganizadorById(@PathVariable Integer id) {
-        Organizador organizador = organizadorRepository.findById(id).orElseThrow(() ->
+    public ResponseEntity<Pessoa> getOrganizadorById(@PathVariable Integer id) {
+        Pessoa organizador = pessoaRepository.findByIdAndTipoPessoa(id, tipoPessoaRepository.findById(2).get()).orElseThrow(() ->
                 new RuntimeException("\nOrganizador não encontrado com id: " + id));
         return ResponseEntity.ok().body(organizador);
     }
 
     @GetMapping(value = "/nome/{nome}")
-    public List<Organizador> getOrganizadorByNome(@PathVariable String nome) {
-        return organizadorRepository.findByNomeContainingIgnoreCase(nome);
+    public List<Pessoa> getOrganizadorByNome(@PathVariable String nome) {
+        return pessoaRepository.findByNomeContainingIgnoreCaseAndTipoPessoa(nome, tipoPessoaRepository.findById(2).get());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Organizador createOrganizador(@RequestBody Organizador organizador) {
-        return organizadorRepository.save(organizador);
+    public Pessoa createOrganizador(@RequestBody Pessoa organizador) {
+        return pessoaRepository.save(organizador);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Organizador> updateOrganizador(@PathVariable Integer id, @RequestBody Organizador detalhesOrganizador) {
-        Organizador organizador = organizadorRepository.findById(id).orElseThrow(() ->
+    public ResponseEntity<Pessoa> updateOrganizador(@PathVariable Integer id, @RequestBody Pessoa detalhesOrganizador) {
+        Pessoa organizador = pessoaRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("\nOrganizador não encontrado com id: " + id));
 
         organizador.setNome(detalhesOrganizador.getNome());
         organizador.setEmail(detalhesOrganizador.getEmail());
         organizador.setTelefone(detalhesOrganizador.getTelefone());
 
-        Organizador organizadorUpdated = organizadorRepository.save(organizador);
+        Pessoa organizadorUpdated = pessoaRepository.save(organizador);
         return ResponseEntity.ok().body(organizadorUpdated);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrganizadorById(@PathVariable Integer id) {
-        organizadorRepository.deleteById(id);
+    public void deleteOrganizadorById(@PathVariable Integer id) {pessoaRepository.deleteById(id);
     }
 }

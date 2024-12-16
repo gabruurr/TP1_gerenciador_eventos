@@ -28,14 +28,9 @@ public class Evento {
     private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-            @JoinTable(name = "evento_participante", joinColumns = @JoinColumn(name = "evento_id"),
-            inverseJoinColumns = @JoinColumn(name = "participante_id"))
-    private List<Participante> participantes = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "evento_organizador", joinColumns = @JoinColumn(name = "evento_id"),
-            inverseJoinColumns = @JoinColumn(name = "organizador_id"))
-    private List<Organizador> organizadores = new ArrayList<>();
+            @JoinTable(name = "evento_pessoa", joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
+    private List<Pessoa> pessoas = new ArrayList<>();
 
 
     public Evento(String nome, LocalDateTime data, String local, Integer vagas) {

@@ -1,9 +1,11 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
-import com.programacaoweb.gerenciador_eventos.entities.Organizador;
+import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
+import com.programacaoweb.gerenciador_eventos.entities.TipoPessoa;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
-import com.programacaoweb.gerenciador_eventos.repositories.OrganizadorRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.PessoaRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.TipoPessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,13 @@ import java.util.Scanner;
 @Component
 public class OrganizadorMenu {
     Scanner sc = new Scanner(System.in);
-    @Autowired
-    OrganizadorRepository organizadorRepository;
+
     @Autowired
     EventoRepository eventoRepository;
+    @Autowired
+    private PessoaRepository pessoaRepository;
+    @Autowired
+    private TipoPessoaRepository tipoPessoaRepository;
 
     public void gerenciarOrganizadores() {
         int escolha;
@@ -60,8 +65,9 @@ public class OrganizadorMenu {
         String email = sc.nextLine();
         System.out.println("Informe o numero de telefone:");
         String telefoneNumero = sc.nextLine();
-        Organizador organizador = new Organizador(nome, email, telefoneNumero);
-        organizadorRepository.save(organizador);
+        TipoPessoa organizador = tipoPessoaRepository.findById(2).get();
+        Pessoa pessoa = new Pessoa(nome, email, telefoneNumero, organizador);
+        pessoaRepository.save(pessoa);
         System.out.println("\nOrganizador cadastrado com sucesso!");
     }
 
@@ -70,7 +76,7 @@ public class OrganizadorMenu {
         int idOrganizador = sc.nextInt();
         sc.nextLine();
 
-        Organizador organizador = organizadorRepository.findById(idOrganizador).get();
+        Pessoa pessoa = pessoaRepository.findById(idOrganizador).get();
 
         System.out.print("Digite o ID do evento: ");
         int idEvento = sc.nextInt();
@@ -78,10 +84,11 @@ public class OrganizadorMenu {
 
         Evento evento = eventoRepository.findById(idEvento).get();
 
-        evento.getOrganizadores().add(organizador);
-        organizador.getEventos().add(evento);
+        evento.getPessoas().add(pessoa);
+        pessoa.getTipoPessoa().setDescricao("Organizador");
+        pessoa.getEventos().add(evento);
 
-        organizadorRepository.save(organizador);
+        pessoaRepository.save(pessoa);
         eventoRepository.save(evento);
 
         System.out.println("Agora esse organizador é responsável pelo evento \"" + evento.getNome() + "\"");
@@ -90,13 +97,19 @@ public class OrganizadorMenu {
     private void pesquisarOrganizadorMenu() {
         System.out.print("Digite do nome do organizador a ser buscado: ");
         String nome = sc.nextLine();
-        List<Organizador> organizadores = organizadorRepository.findByNomeContainingIgnoreCase(nome);
-        List<Organizador> todosOrganizadores = organizadorRepository.findAll();
+        TipoPessoa organizador = tipoPessoaRepository.findById(2).get();
+        List<Pessoa> organizadores = pessoaRepository.findByNomeContainingIgnoreCaseAndTipoPessoa(nome, organizador);
+        List<Pessoa> todosOrganizadores = pessoaRepository.findByTipoPessoa(organizador);
+
         if (nome == null) {
-            todosOrganizadores.forEach(System.out::println);
+            for (Pessoa p : todosOrganizadores) {
+                System.out.println(p.toStringOrganizador());
+            }
         }
         if (!organizadores.isEmpty()) {
-            organizadores.forEach(System.out::println);
+            for (Pessoa p : organizadores) {
+                System.out.println(p.toStringOrganizador());
+            }
         } else {
             System.out.println("Desculpe, não encontramos esse organizador :(");
         }
@@ -107,21 +120,21 @@ public class OrganizadorMenu {
         int idOrganizador = sc.nextInt();
         sc.nextLine();
 
-        Organizador organizador = organizadorRepository.findById(idOrganizador).get();
+        Pessoa organizador = pessoaRepository.findById(idOrganizador).get();
 
         for (Evento evento : organizador.getEventos()) {
-            evento.getOrganizadores().remove(organizador);
+            evento.getPessoas().remove(organizador);
             eventoRepository.save(evento);
         }
 
-        organizadorRepository.delete(organizador);
+        pessoaRepository.delete(organizador);
         System.out.println("Organizador deletado com sucesso!");
     }
 
     private void atualizarOrganizadorMenu() {
         System.out.println("Digite o id do organizador a ser atualizado: ");
         int id = sc.nextInt();
-        Organizador organizadorEncontrado = organizadorRepository.findById(id).get();
+        Pessoa organizadorEncontrado = pessoaRepository.findById(id).get();
 
         System.out.println("Qual campo deseja atualizar? ");
         System.out.println("1 - Nome");
@@ -161,11 +174,11 @@ public class OrganizadorMenu {
             default:
                 System.out.println("Escolha inválida!");
         }
-        organizadorRepository.save(organizadorEncontrado);
+        pessoaRepository.save(organizadorEncontrado);
         System.out.println("Organizador atualizado com sucesso!");
     }
 
-    private void removerGestaoEvento(Organizador organizador) {
+    private void removerGestaoEvento(Pessoa organizador) {
         if (organizador.getEventos().isEmpty()) {
             System.out.println("O organizador não é responsável por nenhum evento no momento!");
             return;
@@ -187,11 +200,11 @@ public class OrganizadorMenu {
 
         Evento eventoSelecionado = organizador.getEventos().get(idEvento);
 
-        eventoSelecionado.getOrganizadores().remove(organizador);
+        eventoSelecionado.getPessoas().remove(organizador);
         organizador.getEventos().remove(eventoSelecionado);
 
         eventoRepository.save(eventoSelecionado);
-        organizadorRepository.save(organizador);
+        pessoaRepository.save(organizador);
 
         System.out.println("Organizador removido do evento com sucesso!");
     }

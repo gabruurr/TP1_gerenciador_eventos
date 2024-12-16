@@ -1,6 +1,7 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
+import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -82,9 +83,12 @@ public class EventoMenu {
         System.out.println("Digite o ID do evento a ser deletado:");
         int id = sc.nextInt();
         Evento evento = eventoRepository.findById(id).get();
-        if (!evento.getParticipantes().isEmpty()){
-            System.out.println("Existem participantes inscritos nesse evento! Remova-os primeiro");
-            return;
+
+        for (Pessoa pessoa : evento.getPessoas()) {
+            if (pessoa.getTipoPessoa().getDescricao().equalsIgnoreCase("Participante")) {
+                System.out.println("Existem participantes inscritos nesse evento! Remova-os primeiro");
+                return;
+            }
         }
         if (!evento.getServicos().isEmpty()){
             System.out.println("Existem serviços contratados para esse evento! Cancele-os primeiro");

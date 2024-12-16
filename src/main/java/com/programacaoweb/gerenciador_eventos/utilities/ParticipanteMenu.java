@@ -1,9 +1,11 @@
 package com.programacaoweb.gerenciador_eventos.utilities;
 
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
-import com.programacaoweb.gerenciador_eventos.entities.Participante;
+import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
+import com.programacaoweb.gerenciador_eventos.entities.TipoPessoa;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
-import com.programacaoweb.gerenciador_eventos.repositories.ParticipanteRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.PessoaRepository;
+import com.programacaoweb.gerenciador_eventos.repositories.TipoPessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +16,11 @@ import java.util.Scanner;
 public class ParticipanteMenu {
     Scanner sc = new Scanner(System.in);
     @Autowired
-    ParticipanteRepository participanteRepository;
-    @Autowired
     EventoRepository eventoRepository;
+    @Autowired
+    private PessoaRepository pessoaRepository;
+    @Autowired
+    private TipoPessoaRepository tipoPessoaRepository;
 
     public void gerenciarParticipantes() {
         int escolha;
@@ -60,8 +64,9 @@ public class ParticipanteMenu {
         String email = sc.nextLine();
         System.out.println("Informe o numero de telefone:");
         String telefoneNumero = sc.nextLine();
-        Participante participante = new Participante(nome, email, telefoneNumero);
-        participanteRepository.save(participante);
+        TipoPessoa participante = tipoPessoaRepository.findById(1).get();
+        Pessoa pessoa = new Pessoa(nome, email, telefoneNumero, participante);
+        pessoaRepository.save(pessoa);
         System.out.println("\nParticipante cadastrado com sucesso!");
     }
 
@@ -70,7 +75,7 @@ public class ParticipanteMenu {
         int idParticipante = sc.nextInt();
         sc.nextLine();
 
-        Participante participante = participanteRepository.findById(idParticipante).get();
+        Pessoa participante = pessoaRepository.findById(idParticipante).get();
 
         System.out.print("Digite o ID do evento no qual deseja inscrever o participante: ");
         int idEvento = sc.nextInt();
@@ -83,11 +88,11 @@ public class ParticipanteMenu {
             return;
         }
 
-        evento.getParticipantes().add(participante);
+        evento.getPessoas().add(participante);
         participante.getEventos().add(evento);
         evento.setVagas(evento.getVagas() - 1);
 
-        participanteRepository.save(participante);
+        pessoaRepository.save(participante);
         eventoRepository.save(evento);
 
         System.out.println("Participante inscrito com sucesso!");
@@ -96,13 +101,19 @@ public class ParticipanteMenu {
     private void pesquisarParticipanteMenu() {
         System.out.print("Digite do nome do participante a ser buscado: ");
         String nome = sc.nextLine();
-        List<Participante> participantes = participanteRepository.findByNomeContainingIgnoreCase(nome);
-        List<Participante> todosParticipantes = participanteRepository.findAll();
+        TipoPessoa participante = tipoPessoaRepository.findById(1).get();
+
+        List<Pessoa> participantes = pessoaRepository.findByNomeContainingIgnoreCaseAndTipoPessoa(nome, participante);
+        List<Pessoa> todosParticipantes = pessoaRepository.findByTipoPessoa(participante);
         if (nome == null) {
-            todosParticipantes.forEach(System.out::println);
+            for (Pessoa p : todosParticipantes) {
+                System.out.println(p.toStringParticipante());
+            }
         }
         if (!participantes.isEmpty()) {
-            participantes.forEach(System.out::println);
+           for (Pessoa p : participantes) {
+               System.out.println(p.toStringParticipante());
+           }
         } else {
             System.out.println("Desculpe, não encontramos esse participante :(");
         }
@@ -113,22 +124,22 @@ public class ParticipanteMenu {
         int idParticipante = sc.nextInt();
         sc.nextLine();
 
-        Participante participante = participanteRepository.findById(idParticipante).get();
+        Pessoa participante = pessoaRepository.findById(idParticipante).get();
 
         for (Evento evento : participante.getEventos()) {
-            evento.getParticipantes().remove(participante);
+            evento.getPessoas().remove(participante);
             evento.setVagas(evento.getVagas() + 1);
             eventoRepository.save(evento);
         }
 
-        participanteRepository.delete(participante);
+        pessoaRepository.delete(participante);
         System.out.println("Participante deletado com sucesso!");
     }
 
     private void atualizarParticipanteMenu() {
         System.out.println("Digite o id do participante a ser atualizado: ");
         int id = sc.nextInt();
-        Participante participanteEncontrado = participanteRepository.findById(id).get();
+        Pessoa participanteEncontrado = pessoaRepository.findById(id).get();
 
         System.out.println("Qual campo deseja atualizar? ");
         System.out.println("1 - Nome");
@@ -168,11 +179,11 @@ public class ParticipanteMenu {
             default:
                 System.out.println("Escolha inválida!");
         }
-        participanteRepository.save(participanteEncontrado);
+        pessoaRepository.save(participanteEncontrado);
         System.out.println("Participante atualizado com sucesso!");
     }
 
-    private void removerInscricaoEvento(Participante participante) {
+    private void removerInscricaoEvento(Pessoa participante) {
         if (participante.getEventos().isEmpty()) {
             System.out.println("O participante não está inscrito em nenhum evento.");
             return;
@@ -194,12 +205,12 @@ public class ParticipanteMenu {
 
         Evento eventoSelecionado = participante.getEventos().get(idEvento);
 
-        eventoSelecionado.getParticipantes().remove(participante);
+        eventoSelecionado.getPessoas().remove(participante);
         participante.getEventos().remove(eventoSelecionado);
         eventoSelecionado.setVagas(eventoSelecionado.getVagas() + 1);
 
         eventoRepository.save(eventoSelecionado);
-        participanteRepository.save(participante);
+        pessoaRepository.save(participante);
 
         System.out.println("Participante removido do evento com sucesso!");
     }
