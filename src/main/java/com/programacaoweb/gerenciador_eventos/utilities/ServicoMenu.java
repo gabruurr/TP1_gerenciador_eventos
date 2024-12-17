@@ -81,6 +81,11 @@ public class ServicoMenu {
         sc.nextLine();
         Pessoa organizadorResponsavel = pessoaRepository.findById(idOrganizador).get();
 
+        if (organizadorResponsavel.getTipoPessoa().getId() != 2) {
+            System.out.println("\nDigite o ID de um organizador!");
+            return;
+        }
+
         List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
 
         if (eventosDoOrganizador.isEmpty()) {
@@ -113,12 +118,14 @@ public class ServicoMenu {
         sc.nextLine();
         Servico servico = servicoRepository.findById(idServico).get();
 
-        if (servico.getEvento() != null) {
-            System.out.println("Esse serviço já está sob contrato!");
-            return;
+        for (Evento eventoTmp : servico.getEventos()) {
+            if (eventoTmp.getData().equals(evento.getData())) {
+                System.out.println("Infelizmente esse serviço já está contratado para uma mesma data e hora :(");
+                return;
+            }
         }
 
-        servico.setEvento(evento);
+        servico.getEventos().add(evento);
         evento.getServicos().add(servico);
         evento.setTotal_servicos(evento.getTotal_servicos() + servico.getPreco());
 
@@ -134,6 +141,11 @@ public class ServicoMenu {
         sc.nextLine();
         Pessoa organizadorResponsavel = pessoaRepository.findById(idOrganizador).get();
 
+        if (organizadorResponsavel.getTipoPessoa().getId() != 2) {
+            System.out.println("\nDigite o ID de um organizador!");
+            return;
+        }
+
         List<Evento> eventosDoOrganizador = organizadorResponsavel.getEventos();
 
         if (eventosDoOrganizador.isEmpty()) {
@@ -145,8 +157,7 @@ public class ServicoMenu {
         for (Evento eventoTmp : eventosDoOrganizador) {
             if (!eventoTmp.getServicos().isEmpty()) {
                 System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
-            }
-            else {
+            } else {
                 System.out.println("--- NÃO HÁ EVENTOS SOB CONTRATOS ---");
                 return;
             }
@@ -166,7 +177,7 @@ public class ServicoMenu {
 
         Servico servicoSelecionado = servicoRepository.findById(idServico).get();
 
-        servicoSelecionado.setEvento(null);
+        servicoSelecionado.getEventos().remove(evento);
         evento.getServicos().remove(servicoSelecionado);
         evento.setTotal_servicos(evento.getTotal_servicos() - servicoSelecionado.getPreco());
 
@@ -199,9 +210,9 @@ public class ServicoMenu {
         sc.nextLine();
 
         Servico servico = servicoRepository.findById(id).get();
-        if (servico.getEvento() != null) {
+        if (!servico.getEventos().isEmpty()) {
             System.out.println("\nO serviço \"" + servico.getNome() + "\" está sob contrato! ");
-            System.out.println("Se deseja excluí-lo, cancele o contrato antes.");
+            System.out.println("Se deseja excluí-lo, cancele todos seus contratos antes.");
             return;
         }
         servicoRepository.deleteById(id);
@@ -239,14 +250,14 @@ public class ServicoMenu {
                 System.out.println("Descrição alterada!");
                 break;
             case 3:
+                if (!servico.getEventos().isEmpty()) {
+                    System.out.println("Esse serviço está contratado! Não é possível alterar o valor fixo no momento.");
+                    return;
+                }
                 System.out.println("Digite o novo valor do serviço");
                 Double novoValor = sc.nextDouble();
                 sc.nextLine();
 
-                if (servico.getEvento() != null) {
-                    System.out.println("Esse serviço está contratado! Não é possível alterar o valor fixo no momento.");
-                    return;
-                }
                 servico.setPreco(novoValor);
                 System.out.println("Preço alterado!");
                 servicoRepository.save(servico);

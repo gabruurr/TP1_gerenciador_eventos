@@ -1,7 +1,6 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,11 +23,13 @@ public class Evento {
     private Integer vagas;
     private Double total_servicos;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "evento_pessoa", joinColumns = @JoinColumn(name = "evento_id"),
+    inverseJoinColumns = @JoinColumn(name = "servico_id"))
     private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-            @JoinTable(name = "evento_pessoa", joinColumns = @JoinColumn(name = "evento_id"),
+    @JoinTable(name = "evento_pessoa", joinColumns = @JoinColumn(name = "evento_id"),
             inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
     private List<Pessoa> pessoas = new ArrayList<>();
 
@@ -47,8 +48,7 @@ public class Evento {
 
         if (servicos.isEmpty()) {
             servicosContratados.append("Nenhum serviço contratado");
-        }
-        else {
+        } else {
             for (Servico servico : servicos) {
                 servicosContratados.append("\n- ").append(servico.getNome());
             }

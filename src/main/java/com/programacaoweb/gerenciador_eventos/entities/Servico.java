@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,10 +19,9 @@ public class Servico {
     private String descricao;
     private Double preco;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "servicos", fetch = FetchType.EAGER)
     @JsonIgnore
-    @JoinColumn(name = "evento_id")
-    private Evento evento;
+    private List<Evento> eventos = new ArrayList<>();
 
     public Servico(String nome, String descricao, Double preco) {
         this.nome = nome;
@@ -29,11 +31,13 @@ public class Servico {
 
     @Override
     public String toString() {
-        String eventoContrato;
-        if (evento == null) {
+        String eventoContrato = "";
+        if (eventos.isEmpty()) {
             eventoContrato = "Nenhum evento sob contrato\n";
         } else {
+            for (Evento evento : eventos) {
             eventoContrato = evento.getNome() + ", " + evento.getLocal();
+            }
         }
         return "\nID: " + id +
                 "\nNome: " + nome +
