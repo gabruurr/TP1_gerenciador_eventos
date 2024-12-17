@@ -78,6 +78,11 @@ public class OrganizadorMenu {
 
         Pessoa pessoa = pessoaRepository.findById(idOrganizador).get();
 
+        if (pessoa.getTipoPessoa().getId() != 2) {
+            System.out.println("\nDigite o ID de um organizador!");
+            return;
+        }
+
         System.out.print("Digite o ID do evento: ");
         int idEvento = sc.nextInt();
         sc.nextLine();
@@ -85,7 +90,6 @@ public class OrganizadorMenu {
         Evento evento = eventoRepository.findById(idEvento).get();
 
         evento.getPessoas().add(pessoa);
-        pessoa.getTipoPessoa().setDescricao("Organizador");
         pessoa.getEventos().add(evento);
 
         pessoaRepository.save(pessoa);
@@ -122,6 +126,11 @@ public class OrganizadorMenu {
 
         Pessoa organizador = pessoaRepository.findById(idOrganizador).get();
 
+        if (organizador.getTipoPessoa().getId() != 2) {
+            System.out.println("\nDigite o ID de um organizador!");
+            return;
+        }
+
         for (Evento evento : organizador.getEventos()) {
             evento.getPessoas().remove(organizador);
             eventoRepository.save(evento);
@@ -134,7 +143,13 @@ public class OrganizadorMenu {
     private void atualizarOrganizadorMenu() {
         System.out.println("Digite o id do organizador a ser atualizado: ");
         int id = sc.nextInt();
+
         Pessoa organizadorEncontrado = pessoaRepository.findById(id).get();
+
+        if (organizadorEncontrado.getTipoPessoa().getId() != 2) {
+            System.out.println("\nDigite o ID de um organizador!");
+            return;
+        }
 
         System.out.println("Qual campo deseja atualizar? ");
         System.out.println("1 - Nome");

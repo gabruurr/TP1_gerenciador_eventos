@@ -77,6 +77,11 @@ public class ParticipanteMenu {
 
         Pessoa participante = pessoaRepository.findById(idParticipante).get();
 
+        if (participante.getTipoPessoa().getId() != 1) {
+            System.out.println("\nDigite o ID de um participante!");
+            return;
+        }
+
         System.out.print("Digite o ID do evento no qual deseja inscrever o participante: ");
         int idEvento = sc.nextInt();
         sc.nextLine();
@@ -126,6 +131,11 @@ public class ParticipanteMenu {
 
         Pessoa participante = pessoaRepository.findById(idParticipante).get();
 
+        if (participante.getTipoPessoa().getId() != 1) {
+            System.out.println("\nDigite o ID de um participante!");
+            return;
+        }
+
         for (Evento evento : participante.getEventos()) {
             evento.getPessoas().remove(participante);
             evento.setVagas(evento.getVagas() + 1);
@@ -140,6 +150,11 @@ public class ParticipanteMenu {
         System.out.println("Digite o id do participante a ser atualizado: ");
         int id = sc.nextInt();
         Pessoa participanteEncontrado = pessoaRepository.findById(id).get();
+
+        if (participanteEncontrado.getTipoPessoa().getId() != 1) {
+            System.out.println("\nDigite o ID de um participante!");
+            return;
+        }
 
         System.out.println("Qual campo deseja atualizar? ");
         System.out.println("1 - Nome");
