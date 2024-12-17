@@ -16,7 +16,7 @@ import java.util.List;
 
 @Tag(name = "Eventos", description = "Endpoints para gerenciamento de eventos")
 @RestController
-@RequestMapping("/eventos")
+@RequestMapping("/api/eventos")
 public class EventoController {
 
     @Autowired

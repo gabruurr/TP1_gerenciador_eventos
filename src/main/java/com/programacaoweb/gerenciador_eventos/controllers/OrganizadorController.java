@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Tag(name = "Organizadores", description = "Endpoints para gerenciamento de pessoas organizadoras de eventos")
 @RestController
-@RequestMapping("/organizadores")
+@RequestMapping("/api/organizadores")
 public class OrganizadorController {
 
     @Autowired

@@ -20,7 +20,7 @@ import java.util.List;
 
 @Tag(name = "Serviços", description = "Endpoints para gerenciamento de serviços")
 @RestController
-@RequestMapping("/servicos")
+@RequestMapping("/api/servicos")
 public class ServicoController {
 
     @Autowired

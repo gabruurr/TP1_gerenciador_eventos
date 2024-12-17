@@ -16,7 +16,7 @@ import java.util.List;
 
 @Tag(name = "Tipos_Pessoa", description = "Endpoints para gerenciamento de diferentes tipos de pessoas")
 @RestController
-@RequestMapping("/tipos-pessoa")
+@RequestMapping("/api/tipos-pessoa")
 public class TipoPessoaController {
 
     @Autowired
