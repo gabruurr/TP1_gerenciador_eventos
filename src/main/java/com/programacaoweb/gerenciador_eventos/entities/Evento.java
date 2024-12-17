@@ -24,7 +24,7 @@ public class Evento {
     private Double total_servicos;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "evento_pessoa", joinColumns = @JoinColumn(name = "evento_id"),
+    @JoinTable(name = "evento_servico", joinColumns = @JoinColumn(name = "evento_id"),
     inverseJoinColumns = @JoinColumn(name = "servico_id"))
     private List<Servico> servicos = new ArrayList<>();
 
