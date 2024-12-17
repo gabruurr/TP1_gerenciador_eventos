@@ -9,6 +9,7 @@ import com.programacaoweb.gerenciador_eventos.repositories.TipoPessoaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Organizadores", description = "Endpoints para gerenciamento de pessoas organizadoras de eventos")
 @RestController
 @RequestMapping("/organizadores")
 public class OrganizadorController {

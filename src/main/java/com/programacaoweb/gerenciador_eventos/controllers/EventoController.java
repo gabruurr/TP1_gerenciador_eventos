@@ -1,13 +1,12 @@
 package com.programacaoweb.gerenciador_eventos.controllers;
 
 import com.programacaoweb.gerenciador_eventos.dtos.EventoDTO;
-import com.programacaoweb.gerenciador_eventos.dtos.PessoaDTO;
 import com.programacaoweb.gerenciador_eventos.entities.Evento;
-import com.programacaoweb.gerenciador_eventos.entities.Pessoa;
 import com.programacaoweb.gerenciador_eventos.repositories.EventoRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Eventos", description = "Endpoints para gerenciamento de eventos")
 @RestController
 @RequestMapping("/eventos")
 public class EventoController {

@@ -1,5 +1,6 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@Schema(name = "TipoPessoa", description = "Informações detalhadas da Entidade TipoPessoa")
 public class TipoPessoa {
 
     @Id

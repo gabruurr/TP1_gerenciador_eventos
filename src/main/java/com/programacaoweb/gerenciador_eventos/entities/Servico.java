@@ -1,6 +1,7 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@Schema(name = "Servico", description = "Informações detalhadas da Entidade Servico")
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
