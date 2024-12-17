@@ -30,7 +30,7 @@ public class GeradorEntidades {
         pessoaRepository.save(pessoa);
         pessoaRepository.save(pessoa2);
 
-        String data1 = "12/12/2024 12:30";
+        String data1 = "12/08/2024 12:30";
         String data2 = "23/09/2024 17:00";
         Evento evento = new Evento("Feira de Ciências", LocalDateTime.parse(data1, Evento.fmtData), "Uespi, Piripiri", 50);
         Evento evento2 = new Evento("Exposição Artística", LocalDateTime.parse(data2, Evento.fmtData), "Museu de Teresina", 200);

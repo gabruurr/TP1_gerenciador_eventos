@@ -2,6 +2,9 @@ package com.programacaoweb.gerenciador_eventos.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +20,15 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "O nome não pode ser vazio.")
+    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres.")
     private String nome;
+
+    @NotBlank(message = "O e-mail não pode ser vazio.")
+    @Email(message = "O e-mail deve ser válido.")
     private String email;
+
+    @NotBlank(message = "O telefone não pode ser vazio.")
     private String telefone;
 
     @ManyToOne

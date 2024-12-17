@@ -1,6 +1,7 @@
 package com.programacaoweb.gerenciador_eventos.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,15 +18,28 @@ public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank(message = "O nome do evento não pode ser vazio.")
+    @Size(max = 100, message = "O nome do evento deve ter no máximo 100 caracteres.")
     private String nome;
+
+    @NotNull(message = "A data do evento não pode ser nula.")
     private LocalDateTime data;
+
+    @NotBlank(message = "O local do evento não pode ser vazio.")
+    @Size(max = 200, message = "O local do evento deve ter no máximo 200 caracteres.")
     private String local;
+
+    @Min(value = 1, message = "O número de vagas deve ser no mínimo 1.")
+    @Max(value = 1000, message = "O número de vagas não pode ser maior que 1000.")
     private Integer vagas;
+
+    @Min(value = 0, message = "O total de serviços deve ser no mínimo 0.")
     private Double total_servicos;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "evento_servico", joinColumns = @JoinColumn(name = "evento_id"),
-    inverseJoinColumns = @JoinColumn(name = "servico_id"))
+            inverseJoinColumns = @JoinColumn(name = "servico_id"))
     private List<Servico> servicos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

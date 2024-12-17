@@ -3,6 +3,9 @@ package com.programacaoweb.gerenciador_eventos.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +20,15 @@ public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank(message = "O nome do serviço não pode ser vazio.")
     private String nome;
+
+    @NotBlank(message = "A descrição do serviço não pode ser vazia.")
     private String descricao;
+
+    @NotNull(message = "O preço do serviço não pode ser nulo.")
+    @Positive(message = "O preço do serviço deve ser um valor positivo.")
     private Double preco;
 
     @ManyToMany(mappedBy = "servicos", fetch = FetchType.EAGER)
