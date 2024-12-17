@@ -31,19 +31,19 @@ public class Servico {
 
     @Override
     public String toString() {
-        String eventoContrato = "";
+        StringBuilder eventosContratados = new StringBuilder();
         if (eventos.isEmpty()) {
-            eventoContrato = "Nenhum evento sob contrato\n";
+            eventosContratados.append("Nenhum evento sob contrato\n");
         } else {
             for (Evento evento : eventos) {
-            eventoContrato = evento.getNome() + ", " + evento.getLocal();
+                eventosContratados.append("\n- ").append(evento.getNome()).append(", ").append(evento.getLocal());
             }
         }
         return "\nID: " + id +
                 "\nNome: " + nome +
                 "\nDescrição: " + descricao +
                 "\nValor do contrato: R$" + String.format("%.2f", preco) +
-                "\nEventos: " + eventoContrato;
+                "\nEventos: " + eventosContratados;
 
     }
 }

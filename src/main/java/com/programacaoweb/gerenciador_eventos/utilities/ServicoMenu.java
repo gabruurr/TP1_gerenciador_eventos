@@ -153,15 +153,21 @@ public class ServicoMenu {
             System.out.println("Selecione um organizador válido e tente novamente.");
             return;
         }
-        System.out.println("\nOs seguintes eventos de " + organizadorResponsavel.getNome() + " estão sob contratos:");
+
+        boolean temEventosComServicos = false;
         for (Evento eventoTmp : eventosDoOrganizador) {
             if (!eventoTmp.getServicos().isEmpty()) {
+                if (!temEventosComServicos) {
+                    System.out.println("=== Eventos com serviços contratados ===");
+                }
                 System.out.println("\n - " + eventoTmp.getNome() + ", ID: " + eventoTmp.getId());
-            } else {
-                System.out.println("--- NÃO HÁ EVENTOS SOB CONTRATOS ---");
-                return;
+                temEventosComServicos = true;
             }
         }
+        if (!temEventosComServicos) {
+            System.out.println("--- NÃO HÁ EVENTOS SOB CONTRATOS ---");
+        }
+
         System.out.println("\nDigite o ID do evento que deseja ver mais detalhes: ");
         int idEvento = sc.nextInt();
         sc.nextLine();
@@ -172,10 +178,10 @@ public class ServicoMenu {
             System.out.println("\n - " + servicoTmp.getNome() + ", R$" + servicoTmp.getPreco() + " ---- ID: " + servicoTmp.getId());
         }
         System.out.println("Digite o ID do serviço a ser cancelado:");
-        int idServico = sc.nextInt();
+        int idServico = sc.nextInt() - 1;
         sc.nextLine();
 
-        Servico servicoSelecionado = servicoRepository.findById(idServico).get();
+        Servico servicoSelecionado = evento.getServicos().get(idServico);
 
         servicoSelecionado.getEventos().remove(evento);
         evento.getServicos().remove(servicoSelecionado);
